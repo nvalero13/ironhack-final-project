@@ -9,7 +9,7 @@
                 <input v-model="password" type="password" name="Password" class="w-full p-2 rounded-sm outline-none">
 
                 <input type="submit" value="Login" class="block bg-emerald-500 text-white px-5 py-2 my-3 w-full hover:bg-emerald-600 pointer">
-                <div v-show="errorMsg" class="w-full bg-red-400 text-white text-center mt-3 p-2">{{ errorMsg }}</div>
+                <div v-show="errorMsg" class="w-full text-red-400 text-center mt-3 p-2">{{ errorMsg }}</div>
             </form>
             <p class="text-center my-5">Don't have an account? <router-link class="text-emerald-500 hover:underline" to="/register">Register</router-link></p>
         </div>

@@ -1,12 +1,12 @@
 <template>
   <section>
-    <Navigation />
+
     <router-view class="app-main" />
   </section>
 </template>
 
 <script setup>
-import Navigation from "./components/Navigation.vue";
+
 
 import { onMounted } from "vue";
 import { storeToRefs } from "pinia";
