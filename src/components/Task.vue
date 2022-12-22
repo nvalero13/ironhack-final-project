@@ -1,11 +1,9 @@
 <template>
-    <div class="flex rounded-lg shadow-sm w-full bg-white border border-emerald-100">
-        <div class="bg-emerald-200 rounded-l-md w-1/12">
-
-        </div>
+    <div class="flex items-start bg-white ">
+        <input class="mt-4" type="checkbox" name="" id="">
         <div class="p-2">
             <h1 class="font-bold text-lg">{{ task.title }}</h1>
-            <p>{{ task.description }}</p>
+            <p class="text-gray-500 text-sm">{{ task.description }}</p>
         </div>
 
 
