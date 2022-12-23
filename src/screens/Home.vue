@@ -1,8 +1,8 @@
 <template>
     <div class="flex mx-auto w-[1000px]">
-        <Menu />
+        <Menu/>
     <div class="ml-10 mt-24">
-        <Task v-for="task in tasks" :task="task"/>
+        <Task v-for="task in taskStore.tasks" :task="task"/>
      
     </div>
 </div>
@@ -11,25 +11,28 @@
 <script setup>
 import Task from '../components/Task.vue'
 import Menu from "../components/Menu.vue";
-
+import { useTaskStore } from "../store/task";
 import { ref } from 'vue';
 
-const tasks = ref([{
-    title: "Do some pushups",
-    description: "Do at least 10 pushups three times during the day.",
-    done: false
-},
-{
-    title: "Add tags",
-    description: "Add a tag system to add tags and filter tasks",
-    done: true
-},
-{
-    title: "Look for references",
-    description: "Create a figma doc and look for some design examples to create the layout",
-    done: false
-},
-])
+const taskStore = useTaskStore();
+taskStore.fetchTasks()
+
+// const tasks = ref([{
+//     title: "Do some pushups",
+//     description: "Do at least 10 pushups three times during the day.",
+//     done: false
+// },
+// {
+//     title: "Add tags",
+//     description: "Add a tag system to add tags and filter tasks",
+//     done: true
+// },
+// {
+//     title: "Look for references",
+//     description: "Create a figma doc and look for some design examples to create the layout",
+//     done: false
+// },
+// ]);
 
 </script>
 

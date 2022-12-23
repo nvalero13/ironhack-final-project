@@ -2,6 +2,9 @@
 
 import { defineStore } from "pinia";
 import { supabase } from "../supabase";
+import { useRouter } from 'vue-router';
+import router from '../router';
+
 
 export const useUserStore = defineStore("user", {
   state: () => ({
@@ -20,6 +23,11 @@ export const useUserStore = defineStore("user", {
       });
       if (error) throw error;
       if (user) this.user = user;
+    },
+    async logOut() {
+      const { error } = await supabase.auth.signOut()
+      window.location.reload()
+      if (error) throw error;
     },
     // Hacer sign in
     // Hacer log out
