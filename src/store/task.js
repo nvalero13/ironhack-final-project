@@ -6,6 +6,7 @@ import { supabase } from "../supabase";
 export const useTaskStore = defineStore("tasks", {
   state: () => ({
     tasks: null,
+    creating: false,
   }),
   actions: {
     async fetchTasks() {
@@ -15,7 +16,21 @@ export const useTaskStore = defineStore("tasks", {
         .order("id", { ascending: false });
       this.tasks = tasks;
     },
-    // Hacer POST
+    async createTask(title, desc, id) {
+      try {
+        const {error} = await supabase.from('tasks').insert([
+          {
+            user_id: id,
+            title: title,
+            desc: desc,
+          }
+        ])
+        console.log(error)
+      }
+      catch(error) {
+        
+      }
+    }
     // Hacer el PUT (edit)
     // Hacer el delete
     // Hacer el PUT (cambiar entre completada y pendiente)

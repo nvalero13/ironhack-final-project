@@ -1,13 +1,13 @@
 <template>
-    <div class="flex items-start bg-white ">
-        <input class="mt-4" type="checkbox" name="" id="">
+    <Transition>
+    <div class="flex items-start transition-all">
+        <input class="mt-5" type="checkbox" name="" id="">
         <div class="p-2">
             <h1 class="font-bold text-lg">{{ task.title }}</h1>
             <p class="text-gray-500 text-sm">{{ task.desc }}</p>
         </div>
-
-
     </div>
+    </Transition>
 </template>
 
 <script setup>

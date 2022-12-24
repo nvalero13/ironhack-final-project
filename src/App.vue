@@ -1,6 +1,5 @@
 <template>
-  <section>
-
+  <section class="bg-gray-400">
     <router-view class="app-main" />
   </section>
 </template>

@@ -4,28 +4,30 @@
     class="flex flex-col justify-start items-left "
   >
     <h1 class="text-3xl font-black font-sans mt-10">TODO</h1>
-    <div class="flex flex-col gap-2 mt-10 font-semibold">
+    <div class="flex flex-col mt-10 font-semibold">
       <div class="w-full flex justify-between">
-      <a href="#">⭐ Today</a>
-        <p class="bg-red-400 px-2 flex justify-center items-center text-white text-sm rounded-full">3</p>
+        <button class="p-2  w-full rounded-full text-left hover:bg-gray-200 transition-all flex justify-between">⭐ Today
+          <p class="bg-red-400 h-6 w-6 flex justify-center items-center text-white text-sm rounded-full">3</p>
+        </button>
+        
       </div>
-      <a href="#">📆 Upcoming </a>
-      <a href="#">📦 Anytime</a>
-      <button href="#" class="mt-5 p-2 rounded-full text-left hover:bg-gray-200 transition-all">✅ Logbook</button>
+      <button class="p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">📆 Upcoming</button>
+      <button class="p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">🕑 Anytime</button>
+      <button class="mt-5 p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">✅ Logbook</button>
     </div>
 
     <div class="flex flex-col gap-2 mt-10 font-semibold">
         <div class="flex flex-col mb-3">
-        <a href="#">📂 Family</a>
-        <a class="ml-4" href="#">📂 Mom</a>
+          <button class="p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">📂 Family</button>
+          <button class="ml-3 p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">📂 Mom</button>
         </div>
-        <a href="#">📂 Work</a>
+        <button class="p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">📂 Work</button>
     </div>
 
     
   </div>
   <div>
-      <button @click="userStore.logOut" class="mb-10 py-2 px-5 font-semibold rounded-full hover:bg-gray-200">Log out</button>
+      <button @click="userStore.logOut" class="mb-10 font-semibold p-2 w-full rounded-full text-left hover:bg-gray-200 transition-all">🙋 Log out</button>
   </div>
 </div>
 </template>
