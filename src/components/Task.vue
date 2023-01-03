@@ -1,10 +1,12 @@
 <template>
     <Transition name="v">
-    <div class="flex items-start transition-all">
-        <input class="mt-5" type="checkbox" name="" id="">
-        <div class="p-2">
-            <h1 class="font-bold text-lg">{{ task.title }}</h1>
-            <p class="text-gray-500 text-sm">{{ task.desc }}</p>
+    <div class="flex items-center transition-all mb-10">
+        <button click="" class="w-6 h-6 mr-1 border-2 rounded-full border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
+            
+        </button>
+        <div class="px-2">
+            <h1 class="font-bold text-lg dark:text-slate-200">{{ task.title }}</h1>
+            <p class="text-gray-500 dark:text-slate-500 text-sm">{{ task.desc }}</p>
         </div>
     </div>
     </Transition>
