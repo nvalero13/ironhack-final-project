@@ -23,6 +23,9 @@
 import { ref } from 'vue';
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
+import { useUserStore } from "../store/user";
+
+const userStore = useUserStore();
 
 const email = ref(null);
 const password = ref(null);
@@ -36,6 +39,7 @@ const login = async () => {
             password: password.value
         });
         if (error) throw error;
+        userStore.fetchUser()
         router.push({name: "Home"})
     } catch(error) {
         errorMsg.value = `Error: ${error.message}`

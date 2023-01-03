@@ -1,5 +1,5 @@
 <template>
-    <Transition>
+    <Transition name="v">
     <div class="flex items-start transition-all">
         <input class="mt-5" type="checkbox" name="" id="">
         <div class="p-2">
@@ -15,5 +15,13 @@ const props = defineProps(["task"]);
 </script>
 
 <style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
 </style>

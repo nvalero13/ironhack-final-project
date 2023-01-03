@@ -5,14 +5,15 @@ import { supabase } from "../supabase";
 
 export const useTaskStore = defineStore("tasks", {
   state: () => ({
-    tasks: null,
+    tasks: [],
     creating: false,
   }),
   actions: {
-    async fetchTasks() {
+    async fetchTasks(id) {
       const { data: tasks } = await supabase
         .from("tasks")
         .select("*")
+        .eq('user_id', id)
         .order("id", { ascending: false });
       this.tasks = tasks;
     },
@@ -25,7 +26,7 @@ export const useTaskStore = defineStore("tasks", {
             desc: desc,
           }
         ])
-        console.log(error)
+        
       }
       catch(error) {
         
