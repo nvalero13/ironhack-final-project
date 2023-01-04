@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, computed  } from "vue";
+import { ref, watch, computed  } from "vue";
 
 import Task from "../components/Task.vue";
 import Menu from "../components/Menu.vue";
@@ -39,11 +39,17 @@ const taskStore = useTaskStore();
 
 taskStore.fetchTasks(userStore.user.id)
 
-const tasks = ref(taskStore.tasks)
-
 const title = ref("⭐ Today");
 
+const tasks = computed(() => taskStore.tasks)
 const taskNum = computed(() => tasks.value.length)
+
+console.log(tasks.value)
+// watch(taskStore.tasks, (newTasks) => {
+//   tasks.value = newTasks;
+//   handleFilter("Today")
+// })
+
 
 function handleFilter(param) {
   switch(param) {

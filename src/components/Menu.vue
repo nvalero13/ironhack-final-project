@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col justify-between w-[400px] h-screen px-10 bg-gray-100 dark:bg-slate-700 dark:text-white sticky top-0 border-x">
   <div
-    class="flex flex-col justify-start items-left "
+    class="flex flex-col justify-start items-left"
   >
     <h1 class="text-4xl font-black font-sans mt-10 dark:text-white">LOGO</h1>
     <div class="flex flex-col mt-10 font-semibold">

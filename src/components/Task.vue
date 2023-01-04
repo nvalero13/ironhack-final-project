@@ -27,12 +27,17 @@
 
 <script setup>
 import { useTaskStore } from '../store/task';
-const taskStore = useTaskStore()
+import { useUserStore } from '../store/user';
+
+const userStore = useUserStore();
+const taskStore = useTaskStore();
 
 const props = defineProps(["task"]);
 
 function handleCompleteTask() {
-  taskStore.completeTask(task.id)
+  taskStore.completeTask(props.task.id)
+  taskStore.fetchTasks(userStore.user.id)
+  console.log(taskStore.tasks)
 }
 
 </script>
