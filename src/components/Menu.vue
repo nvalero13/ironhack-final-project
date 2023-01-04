@@ -50,13 +50,13 @@ const toggleDark = useToggle(isDark);
 
 const darkText = ref("🌙 Dark Mode");
 
+const myProp = ref("hola")
+
 function logOut() {
   userStore.logOut
   router.push({name: "Login"})
 }
 
-// How to filter the task array
-console.log(taskStore.tasks.filter(task => task.title.includes('Prova')).length)
 
 </script>
 

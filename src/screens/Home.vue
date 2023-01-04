@@ -1,6 +1,6 @@
 <template>
   <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r">
-    <Menu @filter="handleFilter"/>
+    <Menu @filter="handleFilter" :my-prop="parentProp"/>
     <div class="w-full">
       <div class="flex justify-between items-start sticky top-0 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b mb-6 h-10/12">
         <div>
@@ -20,6 +20,7 @@
       <div class="h-10/12 overflow-auto">
       <Task class="px-10" v-for="task in tasks" :task="task" />
     </div>
+
     </div>
   </div>
 </template>
@@ -39,20 +40,30 @@ const taskStore = useTaskStore();
 
 taskStore.fetchTasks(userStore.user.id)
 
+const parentProp = ref(null)
+console.log(parentProp.value)
+
+
+
 const title = ref("⭐ Today");
 
-const tasks = computed(() => taskStore.tasks)
+const tasks = ref(taskStore.tasks)
 const taskNum = computed(() => tasks.value.length)
 
-console.log(tasks.value)
-// watch(taskStore.tasks, (newTasks) => {
-//   tasks.value = newTasks;
-//   handleFilter("Today")
-// })
+const actualFilter = ref("Today");
 
+watch(() => taskStore.tasks, () => {
+  console.log(actualFilter.value)
+  applyFilter(actualFilter.value)
+})
 
 function handleFilter(param) {
-  switch(param) {
+  actualFilter.value = param
+  applyFilter(actualFilter.value)
+}
+
+function applyFilter(filter) {
+  switch(actualFilter.value) {
     case "Today":
     title.value = "⭐ Today";
     tasks.value = taskStore.tasks.filter(task => task.title.includes("Prova"))

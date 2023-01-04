@@ -44,5 +44,15 @@ export const useTaskStore = defineStore("tasks", {
         
       }
     },
+    async undoCompleteTask(taskId) {
+      try {
+        const {error} = await supabase.from('tasks')
+        .update({ is_complete: false })
+        .eq('id', taskId)
+      }
+      catch(error) {
+        
+      }
+    },
   },
 });
