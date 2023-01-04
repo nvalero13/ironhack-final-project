@@ -2,7 +2,7 @@
     <Transition name="v">
       <div>
     <div v-if="!task.is_complete" class="flex items-center transition-all mb-10">
-        <button click="" class="w-6 h-6 mr-1 border-2 rounded-full border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
+        <button @click="handleCompleteTask" class="w-6 h-6 mr-1 border-2 rounded-full border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
             
         </button>
         <div class="px-2">
@@ -26,9 +26,15 @@
 </template>
 
 <script setup>
+import { useTaskStore } from '../store/task';
+const taskStore = useTaskStore()
+
 const props = defineProps(["task"]);
 
-console.log(props.task)
+function handleCompleteTask() {
+  taskStore.completeTask(task.id)
+}
+
 </script>
 
 <style scoped>

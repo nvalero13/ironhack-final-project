@@ -1,9 +1,9 @@
 <template>
-  <div class="flex flex-col justify-between w-[400px] h-screen px-10 bg-gray-100 dark:bg-slate-700 dark:text-white sticky top-0 border-r">
+  <div class="flex flex-col justify-between w-[400px] h-screen px-10 bg-gray-100 dark:bg-slate-700 dark:text-white sticky top-0 border-x">
   <div
     class="flex flex-col justify-start items-left "
   >
-    <h1 class="text-3xl font-black font-sans mt-10 dark:text-white">TODO</h1>
+    <h1 class="text-4xl font-black font-sans mt-10 dark:text-white">LOGO</h1>
     <div class="flex flex-col mt-10 font-semibold">
       <div class="w-full flex justify-between">
         <button @click="$emit('filter', 'Today')" class="p-2  w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between">⭐ Today
