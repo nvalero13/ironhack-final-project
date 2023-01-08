@@ -1,7 +1,7 @@
 <template>
       <div>
 <Transition name="v" mode="out-in">
-    <div key="uncompleted" v-if="!completed" class="flex items-center transition-all mb-10">
+    <div key="not_completed" v-if="!completed" class="flex items-center transition-all py-5 px-10 hover:bg-slate-100 hover:dark:bg-slate-700 cursor-pointer">
         <button @click="handleCompleteTask" class="w-6 h-6 mr-1 border-2 rounded-full border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
             
         </button>
@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div key="completed" v-else class="flex items-center transition-all mb-10">
+    <div key="completed" v-else class="flex items-center transition-all py-5 px-10 hover:bg-slate-100 hover:dark:bg-slate-700 cursor-pointer">
         <button @click="handleUndoCompleteTask" class="w-6 h-6 mr-1 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
           <svg  class="p-1" fill="none" viewBox="0 0 115 84" xmlns="http://www.w3.org/2000/svg">
             <path d="M7 45.5L38 76.5L107.5 7" stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
@@ -42,7 +42,6 @@ function handleCompleteTask() {
   taskStore.completeTask(props.task.id)
   taskStore.fetchTasks(userStore.user.id)
   completed.value = true;
-  
 }
 
 function handleUndoCompleteTask() {
