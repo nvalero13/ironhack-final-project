@@ -38,14 +38,14 @@ const userStore = useUserStore();
 const props = defineProps(["task"]);
 const completed = ref(props.task.is_complete);
 
-function handleCompleteTask() {
-  taskStore.completeTask(props.task.id)
+async function handleCompleteTask() {
+  await taskStore.completeTask(props.task.id)
   taskStore.fetchTasks(userStore.user.id)
   completed.value = true;
 }
 
-function handleUndoCompleteTask() {
-  taskStore.undoCompleteTask(props.task.id)
+async function handleUndoCompleteTask() {
+  await taskStore.undoCompleteTask(props.task.id)
   taskStore.fetchTasks(userStore.user.id)
   completed.value = false;
 }

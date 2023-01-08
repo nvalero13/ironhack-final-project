@@ -10,7 +10,7 @@
         <div>
           <h1 class="text-3xl mb-2 font-bold dark:text-white">{{ title }}</h1>
           <h2 class="text-md font-semibold ml-2 dark:text-white">
-            {{ taskNum }} tasks
+            {{ doneTaskNum }} / {{ taskNum }} tasks
           </h2>
         </div>
         <button
@@ -24,7 +24,7 @@
       <Create />
 
       <div class="h-10/12 overflow-auto">
-        <Task v-for="task in tasks" :task="task" />
+        <Task v-for="task in tasks" :task="task" :key="task.id" />
       </div>
     </div>
   </div>
@@ -46,18 +46,19 @@ const taskStore = useTaskStore();
 taskStore.fetchTasks(userStore.user.id);
 
 const parentProp = ref(null);
-console.log(parentProp.value);
 
 const title = ref("⭐ Today");
 
 const tasks = ref(taskStore.tasks);
 const taskNum = computed(() => tasks.value.length);
+const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
 const actualFilter = ref("Today");
 
 watch(
   () => taskStore.tasks,
   () => {
+    console.log(taskStore.tasks)
     applyFilter(actualFilter.value);
   }
 );
@@ -67,7 +68,7 @@ function handleFilter(param) {
   applyFilter(actualFilter.value);
 }
 
-function applyFilter(filter) {
+function applyFilter() {
   switch (actualFilter.value) {
     case "Today":
       title.value = "⭐ Today";
