@@ -1,6 +1,6 @@
 <template>
   <Transition name="bounce">
-        <div v-if="taskStore.creating === true" class="p-2 mb-10 mx-10 box-border rounded-md shadow-md bg-white dark:bg-slate-700 relative">
+        <div v-if="taskStore.creating === true" class="p-2 m-10 border bg-white dark:bg-slate-700 relative">
             <h1 class="p-2 font-bold text-lg mb-2 pb-2 border-b dark:text-white">✏️ Create new task</h1>
    
             <input v-model="title" class="font-semibold p-2 block w-10/12 dark:text-white dark:bg-slate-700" name="Title" type="text" placeholder="Title">

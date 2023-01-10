@@ -8,9 +8,24 @@
         class="flex justify-between items-start sticky top-0 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12"
       >
         <div>
-          <h1 class="text-3xl mb-2 font-bold dark:text-white">{{ title }}</h1>
-          <h2 class="text-md font-semibold ml-2 dark:text-white">
-            {{ doneTaskNum }} / {{ taskNum }} tasks
+          <h1 class="text-3xl mb-2 dark:text-white">
+            <i v-if="actualFilter === 'Upcoming'" class="fa-solid fa-calendar-week m-2 text-orange-400"></i>
+            <i v-if="actualFilter === 'Today'" class="fa-solid fa-calendar-day m-2 text-yellow-400"></i>
+            <i v-if="actualFilter === 'Anytime'" class="fa-solid fa-clock m-2 text-slate-600 dark:text-gray-300"></i>
+            <div class="inline-block" v-if="actualFilter === 'Logbook'">
+              <div 
+            class="flex justify-center items-center w-8 h-8 m-2 rounded-sm bg-emerald-500">
+            <i class="fa-solid fa-check text-2xl m-auto text-white"></i>
+            </div>
+          </div>
+            
+            
+            {{ title }}</h1>
+          <h2 v-if="actualFilter!='Logbook'" class="text-md font-light ml-2 dark:text-slate-400">
+            {{ doneTaskNum }} out of {{ taskNum }} tasks completed
+          </h2>
+          <h2 v-else class="text-md font-light ml-2 dark:text-slate-400">
+            {{ taskNum }} tasks completed
           </h2>
         </div>
         <button
@@ -24,7 +39,9 @@
       <Create />
 
       <div class="h-10/12 overflow-auto">
+     
         <Task v-for="task in tasks" :task="task" :key="task.id" />
+
       </div>
     </div>
   </div>
@@ -71,25 +88,39 @@ function handleFilter(param) {
 function applyFilter() {
   switch (actualFilter.value) {
     case "Today":
-      title.value = "⭐ Today";
+      title.value = "Today";
       tasks.value = taskStore.tasks.filter((task) =>
         task.title.includes("Prova")
       );
       break;
     case "Upcoming":
-      title.value = "📆 Upcoming";
+      title.value = "Upcoming";
       tasks.value = taskStore.tasks;
       break;
     case "Anytime":
-      title.value = "🕑 Anytime";
+      title.value = "Anytime";
       tasks.value = taskStore.tasks;
       break;
     case "Logbook":
-      title.value = "✅ Logbook";
+      title.value = "Logbook";
       tasks.value = taskStore.tasks.filter((task) => task.is_complete === true);
       break;
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.list-item {
+  transition: all 1s;
+  display: inline-block;
+  margin-right: 10px;
+}
+.list-enter, .list-leave-to
+/* .list-complete-leave-active below version 2.1.8 */ {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-leave-active {
+  position: absolute;
+}
+</style>
