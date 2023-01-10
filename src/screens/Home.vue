@@ -5,7 +5,7 @@
     <Menu @filter="handleFilter" :my-prop="parentProp" />
     <div class="w-full">
       <div
-        class="flex justify-between items-start sticky top-0 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12"
+        class="flex justify-between items-center sticky top-0 z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12"
       >
         <div>
           <h1 class="text-3xl mb-2 dark:text-white">
@@ -30,9 +30,9 @@
         </div>
         <button
           @click="taskStore.creating = !taskStore.creating"
-          class="px-4 py-2 rounded-sm bg-emerald-500 hover:bg-emerald-600 text-white"
+          class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white"
         >
-          Add Task
+          New task
         </button>
       </div>
 

@@ -15,9 +15,12 @@
       
           </div>
         </div>
-        <div class="text-right">
-          <div class="inline-block mx-1 px-2 py-1 bg-red-500 rounded-full text-xs text-white">Work</div>
+        <div class="flex items-center">
+          <div class="flex gap-2">
+          <div class="px-2 py-1 bg-red-500 rounded-full text-xs text-white">Work</div>
           
+          </div>
+         
           <button class="h-8 w-8 m-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>
           </button>
@@ -54,19 +57,19 @@
           <i class="fa-solid fa-check text-white"></i>
         </button>
         <div>
-
             <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
             <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3"></i>
             <i class="fa-solid fa-bell text-sm dark:text-slate-200 ml-2 mr-3"></i>
             <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
             <span class="text-sm font-light dark:text-slate-400">12/01</span>
-            
-          </div>
+        </div>
       
       </div> 
-        <div class="text-right">
-          <div class="inline-block mx-1 px-2 py-1 bg-orange-500 rounded-full text-xs text-white">Work</div>
-          <div class="inline-block px-2 py-1 bg-blue-500 rounded-full text-xs text-white">Mom</div>
+        <div class="flex items-center">
+          <div class="flex gap-2">
+          <div class="px-2 py-1 bg-orange-500 rounded-full text-xs text-white">Home</div>
+          <div class="px-2 py-1 bg-blue-500 rounded-full text-xs text-white">Mom</div>
+          </div>
           <button class="h-8 w-8 m-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>
           </button>
@@ -75,6 +78,7 @@
           </div>
         </div>
     </div>
+
     <div v-if="details===true" class="pl-20">
         <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
         <div>
@@ -93,6 +97,7 @@
         <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
         </div>
     </div>
+
   </div>
   </Transition>
   

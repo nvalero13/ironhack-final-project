@@ -45,6 +45,9 @@
         <button class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
           <i class="fa-solid fa-folder-open m-1 text-red-500"></i> Work
         </button>
+        <button class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+          <i class="fa-solid fa-folder-open m-1 text-orange-500"></i> Home
+        </button>
       </div>
     </div>
     <div>
