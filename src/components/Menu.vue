@@ -8,7 +8,7 @@
       <div class="flex flex-col mt-10">
         <div class="w-full flex justify-between">
           <button @click="$emit('filter', 'Today')"
-            class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between">
+            class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Today' }">
             <div><i class="fa-solid fa-calendar-day mr-2 text-yellow-400"></i>Today</div>
             <p class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
               {{ taskStore.tasks.length }}
@@ -16,15 +16,15 @@
           </button>
         </div>
         <button @click="$emit('filter', 'Upcoming')"
-          class="p-2 pl-4  w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+          class="p-2 pl-4  w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Upcoming' }">
           <i class="fa-solid fa-calendar-week mr-2 text-orange-400"></i>Upcoming
         </button>
         <button @click="$emit('filter', 'Anytime')"
-          class="p-2 pl-4  w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+          class="p-2 pl-4  w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Anytime' }">
           <i class="fa-solid fa-clock mr-2 text-slate-600 dark:text-gray-300"></i>Anytime
         </button>
         <button @click="$emit('filter', 'Logbook')"
-          class="flex items-center pl-4 mt-8 p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+          class="flex items-center pl-4 mt-8 p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Logbook' }">
           <div
             class="flex justify-center items-center w-4 h-4 mr-2 rounded-sm bg-emerald-500">
             <i class="fa-solid fa-check text-xs text-white"></i>
@@ -68,7 +68,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, watch, computed} from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { useUserStore } from "../store/user";
 import { useTaskStore } from "../store/task";
@@ -81,16 +81,19 @@ const taskStore = useTaskStore();
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
-const darkText = ref("🌙 Dark Mode");
+const props = defineProps(["actualFilter"])
 
-const myProp = ref("hola");
+
+const active = ref('font-bold')
+
+const darkText = ref("🌙 Dark Mode");
 
 function logOut() {
   userStore.logOut;
   router.push({ name: "Login" });
 }
 
-const active = ref("font-semibold")
+
 
 </script>
 

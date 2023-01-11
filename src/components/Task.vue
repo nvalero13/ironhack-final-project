@@ -1,5 +1,7 @@
 <template>
   <div @click="details=!details">
+
+<!-- INITIAL TASK  -->    
 <Transition name="v" mode="out-in">
   <div key="not_completed" v-if="!completed " class="hover:bg-slate-100 hover:dark:bg-slate-700 cursor-pointer py-5">
   <div  class="flex justify-between items-center transition-all px-10 ">
@@ -50,6 +52,8 @@
     </div>
   </div>  
 
+  <!-- COMPLETED TASK ------------------------------------------------------------------------------------- -->
+
     <div key="completed" v-else class="hover:bg-slate-100 hover:dark:bg-slate-700 cursor-pointer py-5">
     <div class="relative flex justify-between items-center transition-all px-10 hover:bg-slate-100 hover:dark:bg-slate-700 cursor-pointer">
       <div class="flex items-start"> 
@@ -79,7 +83,8 @@
         </div>
     </div>
 
-    <div v-if="details===true" class="pl-20">
+    <!-- <Transition name="collapse"> -->
+    <div v-if="details===true" class="px-20">
         <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
         <div>
           <button class="w-3 h-3 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
@@ -97,11 +102,13 @@
         <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
         </div>
     </div>
+  <!-- </Transition> -->
 
   </div>
-  </Transition>
-  
+</Transition>
+ 
   </div>
+  
  
 </template>
 
@@ -133,13 +140,13 @@ async function handleUndoCompleteTask() {
 </script>
 
 <style scoped>
-.v-enter-active,
-.v-leave-active {
+.v-enter-active, .v-leave-active {
   transition: opacity 0.2s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
+.v-enter-from, .v-leave-to {
   opacity: 0;
 }
+
+
 </style>

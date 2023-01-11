@@ -1,8 +1,8 @@
 <template>
   <div
-    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r"
+    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r overflow-x-scroll"
   >
-    <Menu @filter="handleFilter" :my-prop="parentProp" />
+    <Menu @filter="handleFilter" :actualFilter="actualFilter" />
     <div class="w-full">
       <div
         class="flex justify-between items-center sticky top-0 z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12"
@@ -44,6 +44,7 @@
 
       </div>
     </div>
+    
   </div>
 </template>
 
