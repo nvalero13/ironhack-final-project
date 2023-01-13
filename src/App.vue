@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-gray-200 bg-gradient-to-b from-gray-300 dark:bg-slate-900  dark:bg-gradient-to-b dark:from-slate-800">
+  <section class="bg-gray-200 bg-gradient-to-b from-gray-300 dark:bg-slate-900 dark:bg-gradient-to-b dark:from-slate-800">
     <router-view class="app-main" />
   </section>
 </template>

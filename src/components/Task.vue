@@ -23,7 +23,7 @@
           
           </div>
          
-          <button class="h-8 w-8 m-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
+          <button @click.stop="" class="h-8 w-8 ml-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>
           </button>
           <div>
@@ -74,7 +74,7 @@
           <div class="px-2 py-1 bg-orange-500 rounded-full text-xs text-white">Home</div>
           <div class="px-2 py-1 bg-blue-500 rounded-full text-xs text-white">Mom</div>
           </div>
-          <button class="h-8 w-8 m-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
+          <button @click.stop="" class="h-8 w-8 ml-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>
           </button>
           <div>

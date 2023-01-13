@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r overflow-x-scroll"
+    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r"
   >
     <Menu @filter="handleFilter" :actualFilter="actualFilter" />
     <div class="w-full">
@@ -13,10 +13,7 @@
             <i v-if="actualFilter === 'Today'" class="fa-solid fa-calendar-day m-2 text-yellow-400"></i>
             <i v-if="actualFilter === 'Anytime'" class="fa-solid fa-clock m-2 text-slate-600 dark:text-gray-300"></i>
             <div class="inline-block" v-if="actualFilter === 'Logbook'">
-              <div 
-            class="flex justify-center items-center w-8 h-8 m-2 rounded-sm bg-emerald-500">
-            <i class="fa-solid fa-check text-2xl m-auto text-white"></i>
-            </div>
+              <i class="fa-solid fa-clipboard-check m-2 text-emerald-400"></i>
           </div>
             
             
@@ -38,7 +35,7 @@
 
       <Create />
 
-      <div class="h-10/12 overflow-auto">
+      <div class="max-h-10/12">
      
         <Task v-for="task in tasks" :task="task" :key="task.id" />
 
@@ -65,7 +62,7 @@ taskStore.fetchTasks(userStore.user.id);
 
 const parentProp = ref(null);
 
-const title = ref("⭐ Today");
+const title = ref("Today");
 
 const tasks = ref(taskStore.tasks);
 const taskNum = computed(() => tasks.value.length);
