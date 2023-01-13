@@ -20,18 +20,11 @@
       </div>
 
       <div class="flex flex-col mt-4">
-        <div class="flex flex-col">
-          <button class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-            <i class="fa-solid fa-people-roof w-5 mr-2 text-blue-500"></i> Family
+
+          <button v-for="category in categories" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+            <i class="w-5 mr-2" :class=" `${category.icon} text-${category.color}`"></i>{{ category.title }}
           </button>
-          
-        </div>
-        <button class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-          <i class="fa-solid fa-laptop w-5  mr-2 text-red-500"></i> Work
-        </button>
-        <button class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-          <i class="fa-solid fa-home w-5  mr-2 text-orange-500"></i> Home
-        </button>
+    
       </div>
     </div>
     <div>
@@ -56,11 +49,13 @@ import { ref, watch, computed} from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { useUserStore } from "../store/user";
 import { useTaskStore } from "../store/task";
+import { useCategoryStore } from "../store/category"
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const userStore = useUserStore();
 const taskStore = useTaskStore();
+const categoryStore = useCategoryStore();
 
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
@@ -92,7 +87,16 @@ const filterButtons = ref([{
 {
   title: "Logbook",
   icon: "fa-solid fa-clipboard-check text-emerald-400"
-}])
+}]);
+
+const categories = ref([])
+fetchCat()
+
+async function fetchCat() {
+
+  await categoryStore.fetchCategories(userStore.user.id);
+  categories.value = categoryStore.categories
+}
 
 </script>
 
