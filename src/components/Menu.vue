@@ -6,28 +6,17 @@
       <img v-else class="object-fit ml-2 mt-10 w-6/12" src="../assets/logo-black.svg" alt="Logo" />
 
       <div class="flex flex-col mt-14 pb-4 border-b  border-slate-500">
-        <div class="w-full flex justify-between">
-          <button @click="$emit('filter', 'Today')"
-            class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Today' }">
-            <div><i class="fa-solid fa-calendar-day w-5 mr-2 text-yellow-400"></i>Today</div>
-            <p class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
+        <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
+          <button  @click="$emit('filter', filterButton.title)"
+            class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === filterButton.title }">
+            <div><i class="w-5 mr-2" :class="filterButton.icon"></i>{{ filterButton.title }}</div>
+            
+            <!-- <p class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
               {{ taskStore.tasks.length }}
-            </p>
+            </p>  -->
+          
           </button>
-        </div>
-        <button @click="$emit('filter', 'Upcoming')"
-          class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Upcoming' }">
-          <i class="fa-solid fa-calendar-week w-5 mr-2 text-orange-400"></i>Upcoming
-        </button>
-        <button @click="$emit('filter', 'Anytime')"
-          class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Anytime' }">
-          <i class="fa-solid fa-clock w-5 mr-2 text-slate-600 dark:text-gray-300"></i>Anytime
-        </button>
-        <button @click="$emit('filter', 'Logbook')"
-          class="flex items-center pl-4 p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === 'Logbook' }">
-          <i class="fa-solid fa-clipboard-check w-5 mr-2 text-emerald-400"></i>
-          Logbook
-        </button>
+        </div> 
       </div>
 
       <div class="flex flex-col mt-4">
@@ -88,7 +77,22 @@ function logOut() {
   router.push({ name: "Login" });
 }
 
-
+const filterButtons = ref([{
+  title: "Today",
+  icon: "fa-solid fa-calendar-day text-yellow-400"
+},
+{
+  title: "Upcoming",
+  icon: "fa-solid fa-calendar-week text-orange-400"
+},
+{
+  title: "Anytime",
+  icon: "fa-solid fa-clock text-slate-600 dark:text-gray-300"
+},
+{
+  title: "Logbook",
+  icon: "fa-solid fa-clipboard-check text-emerald-400"
+}])
 
 </script>
 
