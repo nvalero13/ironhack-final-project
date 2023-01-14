@@ -12,14 +12,16 @@
             <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
             <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3"></i>
             <i class="fa-solid fa-bell text-sm dark:text-slate-200 ml-2 mr-3"></i>
-            <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
-            <span class="text-sm font-light dark:text-slate-400">12/01</span>
+            <div class="inline" v-if="task.due_date">
+              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
+              <span class="text-sm font-light dark:text-slate-400">{{ dueDateString }}</span>
+            </div>
       
           </div>
         </div>
         <div class="flex items-center">
           <div class="flex gap-2">
-          <div class="px-2 py-1 bg-red-500 rounded-full text-xs text-white">Work</div>
+          <div v-for="category in taskCategories" class="px-2 py-1 bg-red-500 rounded-full text-xs text-white">Work</div>
           
           </div>
          
@@ -64,8 +66,11 @@
             <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
             <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3"></i>
             <i class="fa-solid fa-bell text-sm dark:text-slate-200 ml-2 mr-3"></i>
-            <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
-            <span class="text-sm font-light dark:text-slate-400">12/01</span>
+            <div class="inline" v-if="task.due_date">
+              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
+              <span class="text-sm font-light dark:text-slate-400">{{ dueDateString }}</span>
+            </div>
+           
         </div>
       
       </div> 
@@ -83,8 +88,8 @@
         </div>
     </div>
 
-    <!-- <Transition name="collapse"> -->
-    <div v-if="details===true" class="px-20">
+    <Transition name="slide">
+    <div v-if="details" class="px-20">
         <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
         <div>
           <button class="w-3 h-3 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
@@ -102,7 +107,7 @@
         <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
         </div>
     </div>
-  <!-- </Transition> -->
+  </Transition>
 
   </div>
 </Transition>
@@ -116,9 +121,11 @@
 import { ref } from 'vue';
 import { useTaskStore } from '../store/task';
 import { useUserStore } from '../store/user';
+import { useCategoryStore } from '../store/category'
 
 const taskStore = useTaskStore();
 const userStore = useUserStore();
+const categoryStore = useCategoryStore();
 
 const props = defineProps(["task"]);
 const completed = ref(props.task.is_complete);
@@ -137,6 +144,15 @@ async function handleUndoCompleteTask() {
   completed.value = false;
 }
 
+const taskCategories = ref("");
+const dueDate = new Date(props.task.due_date);
+const dueDateString = `${dueDate.getDate()}/${('0'+(dueDate.getMonth()+1)).slice(-2)}`;
+
+() => {
+  console.log(categoryStore.categories)
+  console.log(props.task.categories)
+}
+
 </script>
 
 <style scoped>
@@ -148,5 +164,36 @@ async function handleUndoCompleteTask() {
   opacity: 0;
 }
 
+.slide-enter-active {
+   -moz-transition-duration: 0.3s;
+   -webkit-transition-duration: 0.3s;
+   -o-transition-duration: 0.3s;
+   transition-duration: 0.3s;
+   -moz-transition-timing-function: ease-in;
+   -webkit-transition-timing-function: ease-in;
+   -o-transition-timing-function: ease-in;
+   transition-timing-function: ease-in;
+}
+
+.slide-leave-active {
+   -moz-transition-duration: 0.3s;
+   -webkit-transition-duration: 0.3s;
+   -o-transition-duration: 0.3s;
+   transition-duration: 0.3s;
+   -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+   -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+   -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+   transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.slide-enter-to, .slide-leave {
+   max-height: 100px;
+   overflow: hidden;
+}
+
+.slide-enter, .slide-leave-to {
+   overflow: hidden;
+   max-height: 0;
+}
 
 </style>

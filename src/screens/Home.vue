@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-r"
+    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-x relative"
   >
     <Menu @filter="handleFilter" :actualFilter="actualFilter" />
     <div class="w-full">
@@ -26,14 +26,14 @@
           </h2>
         </div>
         <button
-          @click="taskStore.creating = !taskStore.creating"
-          class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white"
+          @click="creating = true"
+          class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white"
         >
           New task
         </button>
       </div>
 
-      <Create />
+
 
       <div class="max-h-10/12">
      
@@ -41,6 +41,16 @@
 
       </div>
     </div>
+
+
+      
+
+    <Transition name="create">
+        <div v-show="creating" class="absolute z-10 top-0 left-0 right-0 bottom-0">
+            <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-show="creating" @close="creating = false"/>
+            <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
+        </div>
+    </Transition>
     
   </div>
 </template>
@@ -60,7 +70,7 @@ const taskStore = useTaskStore();
 
 taskStore.fetchTasks(userStore.user.id);
 
-const parentProp = ref(null);
+const creating = ref(false);
 
 const title = ref("Today");
 
@@ -73,7 +83,6 @@ const actualFilter = ref("Today");
 watch(
   () => taskStore.tasks,
   () => {
-    console.log(taskStore.tasks)
     applyFilter(actualFilter.value);
   }
 );
@@ -108,17 +117,12 @@ function applyFilter() {
 </script>
 
 <style scoped>
-.list-item {
-  transition: all 1s;
-  display: inline-block;
-  margin-right: 10px;
+
+.create-enter-active, .create-leave-active {
+  transition: opacity .5s;
 }
-.list-enter, .list-leave-to
-/* .list-complete-leave-active below version 2.1.8 */ {
+.create-enter, .create-leave-to {
   opacity: 0;
-  transform: translateY(30px);
 }
-.list-leave-active {
-  position: absolute;
-}
+
 </style>

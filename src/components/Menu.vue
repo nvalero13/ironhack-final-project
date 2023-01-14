@@ -21,8 +21,8 @@
 
       <div class="flex flex-col mt-4">
 
-          <button v-for="category in categories" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-            <i class="w-5 mr-2" :class=" `${category.icon} text-${category.color}`"></i>{{ category.title }}
+          <button v-if="categories" v-for="category in categories" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+            <i class="w-5 mr-2" :class="`${category.icon} text-${category.color}`"></i>{{ category.title }}
           </button>
     
       </div>
@@ -89,11 +89,10 @@ const filterButtons = ref([{
   icon: "fa-solid fa-clipboard-check text-emerald-400"
 }]);
 
-const categories = ref([])
+const categories = ref(null)
 fetchCat()
 
-async function fetchCat() {
-
+async function fetchCat(){
   await categoryStore.fetchCategories(userStore.user.id);
   categories.value = categoryStore.categories
 }
