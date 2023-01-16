@@ -7,7 +7,7 @@
     </button>
 
     <h1 class="p-4 text-xl mb-2 border-b dark:text-white">
-      <i class="fa-solid fa-pencil mr-3"></i>Create a new task
+      Create a new task
     </h1>
 
     <div class="mt-4 mx-4 flex gap-4">
@@ -23,20 +23,20 @@
       </div>
     </div>
     <div class="mt-4 mx-4 flex gap-4">
-    <div class="w-10/12">
-      <label class="dark:text-white text-gray-400 text-sm" for="desc">Description</label>
-      <input v-model="desc" class="block outline-none border-b w-full h-12 dark:text-white dark:bg-slate-700"
-        placeholder="Optional description" name="Desc" type="text" />
-    </div>
-    <div class="w-2/12">
-      <label class="dark:text-white text-gray-400 text-sm" for="desc">Priority</label>
-      <select v-model="prio" class="block outline-none border-b w-full h-12 dark:text-white dark:bg-slate-700"
-       name="Priority"  >
-      <option value=3>High</option>
-      <option value=2>Medium</option>
-      <option value=1 selected="selected">Low</option>
-      </select>
-    </div>
+      <div class="w-10/12">
+        <label class="dark:text-white text-gray-400 text-sm" for="desc">Description</label>
+        <input v-model="desc" class="block outline-none border-b w-full h-12 dark:text-white dark:bg-slate-700"
+          placeholder="Optional description" name="Desc" type="text" />
+      </div>
+      <div class="w-2/12">
+        <label class="dark:text-white text-gray-400 text-sm" for="desc">Priority</label>
+        <select v-model="prio" class="block outline-none border-b w-full h-12 dark:text-white dark:bg-slate-700"
+          name="Priority">
+          <option value=3>High</option>
+          <option value=2>Medium</option>
+          <option value=1 selected="selected">Low</option>
+        </select>
+      </div>
     </div>
     <div class="m-4">
       <label class="dark:text-white text-gray-400 text-sm" for="desc">Category</label>
@@ -66,15 +66,16 @@
     </div>
 
     <button @click="createTask" :disabled="isDisabled"
-      class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 w-20 bg-emerald-500 shadow-md text-2xl text-white font-bold enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
-      <i class="fa-solid fa-plus"></i>
+      class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 px-4 bg-emerald-500 shadow-md text-white enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
+      <i class="fa-solid fa-pencil"></i>
+      Create
     </button>
 
     <Transition name="bounce">
-    <div v-if="ok"
-      class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 p-5 border text-xl shadow-md text-white bg-emerald-500 z-30">
-      Task created succesfully!
-    </div>
+      <div v-if="ok"
+        class="absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 p-5 border text-xl shadow-md text-white bg-emerald-500 z-30">
+        Task created succesfully!
+      </div>
     </Transition>
 
   </div>
@@ -95,7 +96,7 @@ const userStore = useUserStore();
 const categoryStore = useCategoryStore();
 
 const title = ref("");
-const date = ref("");
+const date = ref(null);
 const desc = ref("");
 const selectedCategory = ref([]);
 const prio = ref(1);
@@ -105,7 +106,7 @@ const isDisabled = computed(() => title.value.length < 3)
 const newCategoryForm = ref(false);
 
 async function createTask() {
-  if (title.value.length > 3 && desc.value.length > 3) {
+
     await taskStore.createTask(
       title.value,
       desc.value,
@@ -113,23 +114,21 @@ async function createTask() {
       selectedCategory.value,
       prio.value,
       userStore.user.id
-    );
+    )
+      .then(() => {
+        ok.value = true
 
-    ok.value = true
-
-    setTimeout(() => {
-      emit("close");
-
-      title.value = "";
-      desc.value = "";
-      date.value = "";
-      selectedCategory.value = [];
-
-      taskStore.fetchTasks(userStore.user.id);
-      ok.value = false
-    },1000)
-
-  }
+        setTimeout(() => {
+          emit("close");
+          title.value = "";
+          desc.value = "";
+          date.value = "";
+          selectedCategory.value = [];
+          taskStore.fetchTasks(userStore.user.id);
+          ok.value = false
+        }, 1000)
+      })
+      .catch(() => console.log(error))
 }
 
 function addNewCategory(catId) {
@@ -149,16 +148,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .bounce-enter-active {
   animation: bounce-in 0.5s;
 }
+
 .bounce-leave-active {
   animation: bounce-in 0.5s reverse;
 }
+
 @keyframes bounce-in {
   0% {
     transform: scale(0) translate(-50%, -50%);
   }
+
   50% {
     transform: scale(1.05) translate(-50%, -50%);
   }
+
   100% {
     transform: scale(1) translate(-50%, -50%);
   }
