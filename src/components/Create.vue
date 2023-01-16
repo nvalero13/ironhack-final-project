@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 import CreateCategory from "./CreateCategory.vue"
 
@@ -77,8 +77,8 @@ const date = ref("");
 const desc = ref("");
 const selectedCategory = ref([]);
 
-const isDisabled = ref(false)
-const newCategoryForm = ref(true);
+const isDisabled = computed(() => title.value.length < 3)
+const newCategoryForm = ref(false);
 
 async function createTask() {
   if (title.value.length > 3 && desc.value.length > 3) {
