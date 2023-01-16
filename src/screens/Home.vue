@@ -15,8 +15,6 @@
             <div class="inline-block" v-if="actualFilter === 'Logbook'">
               <i class="fa-solid fa-clipboard-check m-2 text-emerald-400"></i>
           </div>
-            
-            
             {{ title }}</h1>
           <h2 v-if="actualFilter!='Logbook'" class="text-md font-light ml-2 dark:text-slate-400">
             {{ doneTaskNum }} out of {{ taskNum }} tasks completed
@@ -35,7 +33,7 @@
 
       <div class="max-h-10/12">
         <div v-if="tasks.length > 0">
-        <Task v-for="task in tasks" :task="task" :key="task.id" />
+        <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
         <div v-else class="flex flex-col mt-32 justify-center items-center">
             <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.toLowerCase() }} :(</h1>
@@ -50,10 +48,12 @@
     </div>
 
     <Transition name="create">
-        <div v-show="creating" class="absolute z-10 top-0 left-0 right-0 bottom-0">
-            <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-show="creating" @close="creating = false"/>
+        <div v-show="creating || editing" class="absolute z-10 top-0 left-0 right-0 bottom-0">
+            <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-if="creating" @close="creating = false"/>
+            <Edit class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-if="editing" @close="editing = false" :task="editingTask"/>
             <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
         </div>
+        
     </Transition>
     
   </div>
@@ -65,6 +65,7 @@ import { ref, watch, computed, onMounted } from "vue";
 import Task from "../components/Task.vue";
 import Menu from "../components/Menu.vue";
 import Create from "../components/Create.vue";
+import Edit from "../components/Edit.vue";
 
 import { useTaskStore } from "../store/task";
 import { useUserStore } from "../store/user";
@@ -76,7 +77,16 @@ const categoryStore = useCategoryStore();
 
 taskStore.fetchTasks(userStore.user.id);
 
-const creating = ref(true);
+const creating = ref(false);
+const editing = ref(false);
+const editingTask = ref()
+
+function edit(task) {
+
+  editingTask.value = task;
+  editing.value = true; 
+
+}
 
 const title = ref("Today");
 
