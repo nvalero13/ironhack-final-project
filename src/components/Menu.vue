@@ -22,7 +22,7 @@
       <div class="flex flex-col mt-4">
 
           <button v-if="categories" v-for="category in categories" :key="category.id" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-            <i class="w-5 mr-2" :class="`${category.icon} text-${category.color}`"></i>{{ category.title }}
+            <i class="w-5 mr-2" :class="category.icon"></i>{{ category.title }}
           </button>
     
       </div>
@@ -92,9 +92,18 @@ const filterButtons = ref([{
 const categories = ref(null)
 fetchCat()
 
+watch(
+  () => categoryStore.categories,
+  () => {
+    categories.value = categoryStore.categories
+    categories.value.forEach((category) => {
+    category.icon = category.icon + " text-" +category.color;
+    });
+  }
+);
+
 async function fetchCat(){
   await categoryStore.fetchCategories(userStore.user.id);
-  categories.value = categoryStore.categories
 }
 
 </script>

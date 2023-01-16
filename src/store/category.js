@@ -7,6 +7,21 @@ export const useCategoryStore = defineStore("category", {
     categories: []
   }),
   actions: {
+    async createCategory(title, color, icon, id) {
+      try {
+        const {error} = await supabase.from('categories').insert([
+          {
+            user_id: id,
+            title: title,
+            color: color,
+            icon: icon,
+          }
+        ])
+      }
+      catch(error) {
+        throw error.message
+      }
+    },
     async fetchCategories(id) {
         const { data: categories } = await supabase
           .from("categories")

@@ -1,8 +1,8 @@
 <template>
-  <div class="bg-white dark:bg-slate-700 border w-10/12 w-200 h-1/2">
+  <div class="bg-white dark:bg-slate-700 border w-10/12 h-1/2">
     <button
-      class="bg-red-500 absolute -top-4 -right-4 border my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600"
-      @click="$emit('close')">
+      class="bg-red-500 absolute -top-4 -right-4 border my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600 z-20"
+      @click="$emit('close'); newCategoryForm = false">
       <i class="fa-solid fa-xmark text-white text-xl"></i>
     </button>
 
@@ -31,16 +31,28 @@
       <label class="dark:text-white text-gray-400 text-sm" for="desc">Category</label>
       <div class="flex gap-2 mt-2">
         <button v-for="category in categoryStore.categories" @click="addNewCategory(category.id)"
-          class="rounded-full px-4 py-1 border border-gray-400 dark:border-slate-300 transition-all" 
-          :class="selectedCategory.includes(category.id) ? `text-white bg-${category.color}` : 'dark:text-white text-gray-500 bg-transparent'" 
-          :value="category.id">
+          class="rounded-full px-4 py-1 border border-gray-400 dark:border-slate-300 transition-all" :class="
+            selectedCategory.includes(category.id)
+              ? `text-white bg-${category.color}`
+              : 'dark:text-white text-gray-500 bg-transparent'
+          " :value="category.id">
           <i :class="category.icon"></i> {{ category.title }}
         </button>
+        <div>
+          <button @click="newCategoryForm = true; isDisabled = true"
+            class="rounded-full px-4 py-1 border border-gray-400 dark:border-slate-300 transition-all dark:text-white text-gray-500 bg-gray-200 hover:bg-gray-300 dark:bg-slate-500 hover:dark:bg-slate-600">
+            <i class="fa-solid fa-plus"></i> Add category
+          </button>
+   
+          <div v-if="newCategoryForm" class="absolute top-0 bottom-0 left-0 right-0 bg-white dark:bg-black opacity-70 dark:opacity-40"></div>
+          <CreateCategory v-if="newCategoryForm" @close="newCategoryForm = false; isDisabled=false" />
+
+        </div>
       </div>
     </div>
 
-    <button @click="createTask"
-      class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 w-20 bg-emerald-500 shadow-md text-2xl text-white font-bold hover:scale-105 hover:bg-emerald-600 transition-all">
+    <button @click="createTask" :disabled="isDisabled"
+      class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 w-20 bg-emerald-500 shadow-md text-2xl text-white font-bold enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
       <i class="fa-solid fa-plus"></i>
     </button>
   </div>
@@ -48,10 +60,13 @@
 
 <script setup>
 import { ref } from "vue";
+
+import CreateCategory from "./CreateCategory.vue"
+
 import { useTaskStore } from "../store/task";
 import { useCategoryStore } from "../store/category";
 import { useUserStore } from "../store/user";
-const emit = defineEmits(['close'])
+const emit = defineEmits(["close"]);
 
 const taskStore = useTaskStore();
 const userStore = useUserStore();
@@ -62,9 +77,11 @@ const date = ref("");
 const desc = ref("");
 const selectedCategory = ref([]);
 
+const isDisabled = ref(false)
+const newCategoryForm = ref(true);
+
 async function createTask() {
   if (title.value.length > 3 && desc.value.length > 3) {
-    
     await taskStore.createTask(
       title.value,
       desc.value,
@@ -73,7 +90,7 @@ async function createTask() {
       userStore.user.id
     );
 
-    emit('close')
+    emit("close");
 
     title.value = "";
     desc.value = "";
@@ -85,13 +102,12 @@ async function createTask() {
 }
 
 function addNewCategory(catId) {
-    if (selectedCategory.value.includes(catId)) {
-      selectedCategory.value.splice(selectedCategory.value.indexOf(catId),1)
-    } else {
-      selectedCategory.value.push(catId)
-    }
+  if (selectedCategory.value.includes(catId)) {
+    selectedCategory.value.splice(selectedCategory.value.indexOf(catId), 1);
+  } else {
+    selectedCategory.value.push(catId);
+  }
 }
-
 </script>
 
 <style scoped>
