@@ -22,7 +22,7 @@
         <div class="flex items-center">
           <div class="flex gap-2">
           
-            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :class="`bg-${category.color}`">{{ category.title }}</div>
+            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :key="category.id" :class="`bg-${category.color}`">{{ category.title }}</div>
           
           </div>
          
@@ -77,7 +77,7 @@
       </div> 
         <div class="flex items-center">
           <div class="flex gap-2">
-            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :class="`bg-${category.color}`">{{ category.title }}</div>
+            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :key="category.id" :class="`bg-${category.color}`">{{ category.title }}</div>
           </div>
           <button @click.stop="" class="h-8 w-8 ml-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>

@@ -30,9 +30,9 @@
     <div class="m-4">
       <label class="dark:text-white text-gray-400 text-sm" for="desc">Category</label>
       <div class="flex gap-2 mt-2">
-        <button v-for="category in categoryStore.categories" @click="selectedCategory = category.id;"
+        <button v-for="category in categoryStore.categories" @click="addNewCategory(category.id)"
           class="rounded-full px-4 py-1 border border-gray-400 dark:border-slate-300 transition-all" 
-          :class="selectedCategory == category.id ? `text-white bg-${category.color}` : 'dark:text-white text-gray-500 bg-transparent'" 
+          :class="selectedCategory.includes(category.id) ? `text-white bg-${category.color}` : 'dark:text-white text-gray-500 bg-transparent'" 
           :value="category.id">
           <i :class="category.icon"></i> {{ category.title }}
         </button>
@@ -60,7 +60,7 @@ const categoryStore = useCategoryStore();
 const title = ref("");
 const date = ref("");
 const desc = ref("");
-const selectedCategory = ref(0);
+const selectedCategory = ref([]);
 
 async function createTask() {
   if (title.value.length > 3 && desc.value.length > 3) {
@@ -78,10 +78,18 @@ async function createTask() {
     title.value = "";
     desc.value = "";
     date.value = "";
-    selectedCategory.value = "";
+    selectedCategory.value = [];
 
     taskStore.fetchTasks(userStore.user.id);
   }
+}
+
+function addNewCategory(catId) {
+    if (selectedCategory.value.includes(catId)) {
+      selectedCategory.value.splice(selectedCategory.value.indexOf(catId),1)
+    } else {
+      selectedCategory.value.push(catId)
+    }
 }
 
 </script>

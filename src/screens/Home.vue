@@ -33,17 +33,21 @@
         </button>
       </div>
 
-
-
       <div class="max-h-10/12">
-     
+        <div v-if="tasks.length > 0">
         <Task v-for="task in tasks" :task="task" :key="task.id" />
-
+        </div>
+        <div v-else class="flex flex-col mt-32 justify-center items-center">
+            <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.toLowerCase() }} :(</h1>
+            <button
+                @click="creating = true"
+                class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white"
+            >
+              Add your first {{ actualFilter }} task
+        </button>
+        </div>
       </div>
     </div>
-
-
-      
 
     <Transition name="create">
         <div v-show="creating" class="absolute z-10 top-0 left-0 right-0 bottom-0">

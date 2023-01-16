@@ -21,7 +21,7 @@
 
       <div class="flex flex-col mt-4">
 
-          <button v-if="categories" v-for="category in categories" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+          <button v-if="categories" v-for="category in categories" :key="category.id" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
             <i class="w-5 mr-2" :class="`${category.icon} text-${category.color}`"></i>{{ category.title }}
           </button>
     
