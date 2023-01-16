@@ -97,22 +97,37 @@ function applyFilter() {
     case "Today":
       title.value = "Today";
       tasks.value = taskStore.tasks.filter((task) =>
-        task.title.includes("Prova")
+        isToday(new Date(task.due_date))
       );
       break;
     case "Upcoming":
       title.value = "Upcoming";
-      tasks.value = taskStore.tasks;
+      tasks.value = taskStore.tasks.filter((task) =>
+      isWithinNext7Days(new Date(task.due_date))
+      );
       break;
     case "Anytime":
       title.value = "Anytime";
-      tasks.value = taskStore.tasks;
+      tasks.value = taskStore.tasks.filter((task) =>
+      !task.due_date
+      );
       break;
     case "Logbook":
       title.value = "Logbook";
       tasks.value = taskStore.tasks.filter((task) => task.is_complete === true);
       break;
   }
+}
+
+const today = new Date();
+const isToday = (first) =>
+    first.getFullYear() === today.getFullYear() &&
+    first.getMonth() === today.getMonth() &&
+    first.getDate() === today.getDate();
+
+function isWithinNext7Days(date) {
+  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  return (date - today) < oneWeek && (date-today) > 0;
 }
 </script>
 

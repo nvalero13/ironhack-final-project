@@ -13,7 +13,7 @@ export const useTaskStore = defineStore("tasks", {
         .from("tasks")
         .select("*")
         .eq('user_id', id)
-        .order("id", { ascending: false });
+        .order("due_date", { ascending: true });
       this.tasks = tasks;
     },
     async createTask(title, desc, date, category, id) {

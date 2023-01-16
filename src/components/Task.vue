@@ -21,7 +21,8 @@
         </div>
         <div class="flex items-center">
           <div class="flex gap-2">
-          <div v-for="category in taskCategories" class="px-2 py-1 bg-red-500 rounded-full text-xs text-white">Work</div>
+          
+            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :class="`bg-${category.color}`">{{ category.title }}</div>
           
           </div>
          
@@ -76,8 +77,7 @@
       </div> 
         <div class="flex items-center">
           <div class="flex gap-2">
-          <div class="px-2 py-1 bg-orange-500 rounded-full text-xs text-white">Home</div>
-          <div class="px-2 py-1 bg-blue-500 rounded-full text-xs text-white">Mom</div>
+            <div v-for="category in taskCategories" class="px-2 py-1 rounded-full text-xs text-white" :class="`bg-${category.color}`">{{ category.title }}</div>
           </div>
           <button @click.stop="" class="h-8 w-8 ml-2 hover:bg-slate-200 dark:hover:bg-slate-500 rounded-full transition-all">
             <i class="fa-solid fa-ellipsis dark:text-white"></i>
@@ -118,10 +118,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useTaskStore } from '../store/task';
 import { useUserStore } from '../store/user';
 import { useCategoryStore } from '../store/category'
+
 
 const taskStore = useTaskStore();
 const userStore = useUserStore();
@@ -148,10 +149,9 @@ const taskCategories = ref("");
 const dueDate = new Date(props.task.due_date);
 const dueDateString = `${dueDate.getDate()}/${('0'+(dueDate.getMonth()+1)).slice(-2)}`;
 
-() => {
-  console.log(categoryStore.categories)
-  console.log(props.task.categories)
-}
+onMounted(() => {
+  if(props.task.categories) taskCategories.value = categoryStore.categories.filter(cat => props.task.categories.includes(cat.id));
+})
 
 </script>
 
