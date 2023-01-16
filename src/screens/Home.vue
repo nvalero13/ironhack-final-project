@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 
 import Task from "../components/Task.vue";
 import Menu from "../components/Menu.vue";
@@ -68,13 +68,15 @@ import Create from "../components/Create.vue";
 
 import { useTaskStore } from "../store/task";
 import { useUserStore } from "../store/user";
+import { useCategoryStore } from "../store/category"
 
 const userStore = useUserStore();
 const taskStore = useTaskStore();
+const categoryStore = useCategoryStore();
 
 taskStore.fetchTasks(userStore.user.id);
 
-const creating = ref(false);
+const creating = ref(true);
 
 const title = ref("Today");
 
@@ -83,6 +85,11 @@ const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
 const actualFilter = ref("Today");
+
+onMounted(async () => {
+  await taskStore.fetchTasks(userStore.user.id)
+  await categoryStore.fetchCategories(userStore.user.id);
+})
 
 watch(
   () => taskStore.tasks,

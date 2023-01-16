@@ -13,10 +13,11 @@ export const useTaskStore = defineStore("tasks", {
         .from("tasks")
         .select("*")
         .eq('user_id', id)
-        .order("due_date", { ascending: true });
+        .order("due_date", { ascending: true })
+        .order("is_complete", { ascending: true });
       this.tasks = tasks;
     },
-    async createTask(title, desc, date, category, id) {
+    async createTask(title, desc, date, category, prio, id) {
       try {
         const {error} = await supabase.from('tasks').insert([
           {
@@ -24,6 +25,7 @@ export const useTaskStore = defineStore("tasks", {
             title: title,
             desc: desc,
             due_date: date,
+            priority: prio,
             categories: category,
           }
         ])

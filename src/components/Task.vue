@@ -10,10 +10,11 @@
         </button>
             <div>
             <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
-            <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3"></i>
-            <i class="fa-solid fa-bell text-sm dark:text-slate-200 ml-2 mr-3"></i>
+            <!-- <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3 mr-2"></i> -->
+            <i v-if="task.priority == 2" class="fa-solid fa-circle-exclamation text-yellow-200 ml-2"></i>
+            <i v-else-if="task.priority == 3" class="fa-solid fa-circle-exclamation text-red-300 ml-2"></i>
             <div class="inline" v-if="task.due_date">
-              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
+              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 ml-3 mr-1"></i>
               <span class="text-sm font-light dark:text-slate-400">{{ dueDateString }}</span>
             </div>
       
@@ -65,10 +66,10 @@
         </button>
         <div>
             <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
-            <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3"></i>
-            <i class="fa-solid fa-bell text-sm dark:text-slate-200 ml-2 mr-3"></i>
+            <i v-if="task.priority == 2" class="fa-solid fa-circle-exclamation text-yellow-200  ml-2"></i>
+            <i v-else-if="task.priority == 3" class="fa-solid fa-circle-exclamation text-red-300 ml-2"></i>
             <div class="inline" v-if="task.due_date">
-              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 mx-1"></i>
+              <i class="fa-regular fa-calendar text-sm dark:text-slate-400 ml-3 mr-1"></i>
               <span class="text-sm font-light dark:text-slate-400">{{ dueDateString }}</span>
             </div>
            
