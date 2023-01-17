@@ -1,6 +1,6 @@
 <template>
   <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-x relative">
-    <Menu @filter="handleFilter" :actualFilter="actualFilter" />
+    <Menu @filter="handleFilter" @filterCat="handleFilterCat" :actualFilter="actualFilter" :expiredTasks="expiredTasks.length" />
     <div class="w-full">
       <div class="sticky top-0">
       <div
@@ -28,7 +28,7 @@
         </button>
       </div>
       <div
-          v-if="expiredTasks && actualFilter === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
+          v-if="expiredTasks.length > 0 && actualFilter === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
           <button @click="seeExpired = !seeExpired" class="p-3 opacity-75"><span v-if="!seeExpired"> Show</span><span
               v-else> Hide</span> {{ expiredTasks.length }} expired tasks</button>
       
@@ -90,10 +90,8 @@ const editing = ref(false);
 const editingTask = ref()
 
 function edit(task) {
-
   editingTask.value = task;
   editing.value = true;
-
 }
 
 const title = ref("Today");
@@ -121,7 +119,20 @@ function handleFilter(param) {
   applyFilter(actualFilter.value);
 }
 
-const expiredTasks = ref(null)
+
+function handleFilterCat(param) {
+console.log(param)
+    if (param) {
+    applyFilter()
+    tasks.value = tasks.value.filter((task) =>
+        task.categories.includes(param)
+      );
+    } else {
+    applyFilter()
+    }
+}
+
+const expiredTasks = ref([])
 const seeExpired = ref(false)
 
 function applyFilter() {
@@ -161,7 +172,7 @@ const isToday = (first) =>
 
 function isWithinNext7Days(date) {
   const oneWeek = 7 * 24 * 60 * 60 * 1000;
-  return (date - today) < oneWeek && (date - today) > 0;
+  return (date.setHours(0,0,0,0) - today.setHours(0,0,0,0)) < oneWeek && (date.setHours(0,0,0,0) - today.setHours(0,0,0,0)) > 0;
 }
 
 function isExpired(date) {

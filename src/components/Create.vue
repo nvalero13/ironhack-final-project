@@ -61,8 +61,12 @@
 
         </div>
       </div>
-
-
+  
+      </div>
+      <div class="w-12/12 mt-4 mx-4">
+        <label class="dark:text-white text-gray-400 text-sm" for="title">Subtasks</label>
+        <input v-model="subtasks[0]" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
+          type="text" />
     </div>
 
     <button @click="createTask" :disabled="isDisabled"
@@ -100,6 +104,7 @@ const date = ref(null);
 const desc = ref("");
 const selectedCategory = ref([]);
 const prio = ref(1);
+const subtasks = ref([])
 const ok = ref(false)
 
 const isDisabled = computed(() => title.value.length < 3)

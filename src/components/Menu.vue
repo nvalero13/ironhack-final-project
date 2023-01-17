@@ -7,37 +7,44 @@
 
       <div class="flex flex-col mt-14 pb-4 border-b  border-slate-500">
         <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
-          <button  @click="$emit('filter', filterButton.title)"
-            class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between" :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500' : props.actualFilter === filterButton.title }">
+          <button @click="$emit('filter', filterButton.title)"
+            class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between"
+            :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500': props.actualFilter === filterButton.title }">
             <div><i class="w-5 mr-2" :class="filterButton.icon"></i>{{ filterButton.title }}</div>
-            
-            <!-- <p class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
-              {{ taskStore.tasks.length }}
-            </p>  -->
-          
+
+            <p v-if="filterButton.title == 'Today' && expiredTasks > 0"
+              class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
+              {{ expiredTasks }}
+            </p>
+
           </button>
-        </div> 
+        </div>
       </div>
 
       <div class="flex flex-col mt-4">
 
-          <button v-if="categories" v-for="category in categories" :key="category.id" class="p-2 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-            <i class="w-5 mr-2" :class="category.coloredIcon"></i><span class="dark:text-white">{{ category.title }}</span>
-          </button>
-    
+        <button @click="handleActiveCat(category.id)" v-if="categories"
+          v-for="category in categories" :key="category.id"
+          :class="activeCat === category.id ? `bg-${category.color} bg-opacity-75 hover:bg-opacity-50 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
+          class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left  dark:hover:bg-opacity transition-all">
+          <i class="w-5 mr-2" :class="category.coloredIcon"></i><span class="dark:text-white">{{
+            category.title
+          }}</span>
+        </button>
+
       </div>
     </div>
     <div>
       <button v-show="!isDark" @click="toggleDark()"
-        class=" p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
         🌙 Dark Mode
       </button>
       <button v-show="isDark" @click="toggleDark()"
-        class=" p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
         ☀️ Light Mode
       </button>
       <button @click="logOut"
-        class="mb-10 p-2 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
+        class="mb-10 p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
         🙋 Log out
       </button>
     </div>
@@ -45,7 +52,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed} from "vue";
+import { ref, watch, computed } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { useUserStore } from "../store/user";
 import { useTaskStore } from "../store/task";
@@ -60,11 +67,11 @@ const categoryStore = useCategoryStore();
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
-const props = defineProps(["actualFilter"])
-
+const props = defineProps(["actualFilter", "expiredTasks"])
+const emit = defineEmits(["filterCat"])
 
 const active = ref('font-bold')
-
+const activeCat = ref("")
 const darkText = ref("🌙 Dark Mode");
 
 function logOut() {
@@ -97,13 +104,18 @@ watch(
   () => {
     categories.value = categoryStore.categories
     categories.value.forEach((category) => {
-    category.coloredIcon = `${category.icon} text-${category.color}`;
+      category.coloredIcon = `${category.icon} text-${category.color}`;
     });
   }
 );
 
-async function fetchCat(){
+async function fetchCat() {
   await categoryStore.fetchCategories(userStore.user.id);
+}
+
+function handleActiveCat(id) {
+  activeCat.value === id ? activeCat.value = null : activeCat.value = id
+  emit('filterCat', activeCat.value)
 }
 
 </script>
