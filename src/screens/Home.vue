@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-x relative"
-  >
+  <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-x relative">
     <Menu @filter="handleFilter" :actualFilter="actualFilter" />
     <div class="w-full">
+      <div class="sticky top-0">
       <div
-        class="flex justify-between items-center sticky top-0 z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12"
-      >
+        class="flex justify-between items-center  z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12">
         <div>
           <h1 class="text-3xl mb-2 dark:text-white">
             <i v-if="actualFilter === 'Upcoming'" class="fa-solid fa-calendar-week m-2 text-orange-400"></i>
@@ -14,48 +12,58 @@
             <i v-if="actualFilter === 'Anytime'" class="fa-solid fa-clock m-2 text-slate-600 dark:text-gray-300"></i>
             <div class="inline-block" v-if="actualFilter === 'Logbook'">
               <i class="fa-solid fa-clipboard-check m-2 text-emerald-400"></i>
-          </div>
-            {{ title }}</h1>
-          <h2 v-if="actualFilter!='Logbook'" class="text-md font-light ml-2 dark:text-slate-400">
+            </div>
+            {{ title }}
+          </h1>
+          <h2 v-if="actualFilter != 'Logbook'" class="text-md font-light ml-2 dark:text-slate-400">
             {{ doneTaskNum }} out of {{ taskNum }} tasks completed
           </h2>
           <h2 v-else class="text-md font-light ml-2 dark:text-slate-400">
             {{ taskNum }} tasks completed
           </h2>
         </div>
-        <button
-          @click="creating = true"
-          class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white"
-        >
+        <button @click="creating = true"
+          class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
           New task
         </button>
       </div>
-
+      <div
+          v-if="expiredTasks && actualFilter === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
+          <button @click="seeExpired = !seeExpired" class="p-3 opacity-75"><span v-if="!seeExpired"> Show</span><span
+              v-else> Hide</span> {{ expiredTasks.length }} expired tasks</button>
+      
+      </div>
+    </div>
       <div class="max-h-10/12">
+        
+        <div v-if="seeExpired && actualFilter === 'Today'" class="bg-red-500 bg-opacity-10 border-b">
+          <Task v-for="task in expiredTasks" :task="task" :key="task.id" @openEdit="edit" />
+        </div>
         <div v-if="tasks.length > 0">
-        <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
+          <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
         <div v-else class="flex flex-col mt-32 justify-center items-center">
-            <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.toLowerCase() }} :(</h1>
-            <button
-                @click="creating = true"
-                class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white"
-            >
-              Add your first {{ actualFilter }} task
-        </button>
+          <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.toLowerCase() }}
+            :(</h1>
+          <button @click="creating = true"
+            class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
+            Add your first {{ actualFilter }} task
+          </button>
         </div>
       </div>
     </div>
 
     <Transition name="create">
-        <div v-show="creating || editing" class="absolute z-10 top-0 left-0 right-0 bottom-0">
-            <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-if="creating" @close="creating = false"/>
-            <Edit class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg" v-if="editing" @close="editing = false" :task="editingTask"/>
-            <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
-        </div>
-        
+      <div v-show="creating || editing" class="absolute z-10 top-0 left-0 right-0 bottom-0">
+        <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
+          v-if="creating" @close="creating = false" />
+        <Edit class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
+          v-if="editing" @close="editing = false" :task="editingTask" />
+        <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
+      </div>
+
     </Transition>
-    
+
   </div>
 </template>
 
@@ -84,7 +92,7 @@ const editingTask = ref()
 function edit(task) {
 
   editingTask.value = task;
-  editing.value = true; 
+  editing.value = true;
 
 }
 
@@ -113,6 +121,9 @@ function handleFilter(param) {
   applyFilter(actualFilter.value);
 }
 
+const expiredTasks = ref(null)
+const seeExpired = ref(false)
+
 function applyFilter() {
   switch (actualFilter.value) {
     case "Today":
@@ -120,17 +131,19 @@ function applyFilter() {
       tasks.value = taskStore.tasks.filter((task) =>
         isToday(new Date(task.due_date))
       );
+      expiredTasks.value = taskStore.tasks.filter((task) =>
+        isExpired(new Date(task.due_date)) && !task.is_complete && task.due_date)
       break;
     case "Upcoming":
       title.value = "Upcoming";
       tasks.value = taskStore.tasks.filter((task) =>
-      isWithinNext7Days(new Date(task.due_date))
+        isWithinNext7Days(new Date(task.due_date))
       );
       break;
     case "Anytime":
       title.value = "Anytime";
       tasks.value = taskStore.tasks.filter((task) =>
-      !task.due_date
+        !task.due_date
       );
       break;
     case "Logbook":
@@ -142,23 +155,28 @@ function applyFilter() {
 
 const today = new Date();
 const isToday = (first) =>
-    first.getFullYear() === today.getFullYear() &&
-    first.getMonth() === today.getMonth() &&
-    first.getDate() === today.getDate();
+  first.getFullYear() === today.getFullYear() &&
+  first.getMonth() === today.getMonth() &&
+  first.getDate() === today.getDate();
 
 function isWithinNext7Days(date) {
   const oneWeek = 7 * 24 * 60 * 60 * 1000;
-  return (date - today) < oneWeek && (date-today) > 0;
+  return (date - today) < oneWeek && (date - today) > 0;
+}
+
+function isExpired(date) {
+  return date.setHours(0,0,0,0) < today.setHours(0,0,0,0);
 }
 </script>
 
 <style scoped>
-
-.create-enter-active, .create-leave-active {
+.create-enter-active,
+.create-leave-active {
   transition: opacity .5s;
 }
-.create-enter, .create-leave-to {
+
+.create-enter,
+.create-leave-to {
   opacity: 0;
 }
-
 </style>
