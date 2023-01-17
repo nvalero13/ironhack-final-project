@@ -19,7 +19,7 @@ export const useTaskStore = defineStore("tasks", {
       this.tasks = tasks;
     },
 
-    async createTask(title, desc, date, category, prio, id) {
+    async createTask(title, desc, date, category, prio, subtasks, id) {
       try {
         const { error } = await supabase.from("tasks").insert([
           {
@@ -29,6 +29,7 @@ export const useTaskStore = defineStore("tasks", {
             due_date: date,
             priority: prio,
             categories: category,
+            subtasks: subtasks
           },
         ]);
       } catch (error) {

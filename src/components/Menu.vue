@@ -27,7 +27,7 @@
           v-for="category in categories" :key="category.id"
           :class="activeCat === category.id ? `bg-${category.color} bg-opacity-75 hover:bg-opacity-50 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
           class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left  dark:hover:bg-opacity transition-all">
-          <i class="w-5 mr-2" :class="category.coloredIcon"></i><span class="dark:text-white">{{
+          <i class="w-5 mr-2" :class="`before:text-${category.color} ${category.icon}`"></i><span class="dark:text-white">{{
             category.title
           }}</span>
         </button>

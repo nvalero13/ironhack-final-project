@@ -29,16 +29,17 @@
       </div>
       <div
           v-if="expiredTasks.length > 0 && actualFilter === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
-          <button @click="seeExpired = !seeExpired" class="p-3 opacity-75"><span v-if="!seeExpired"> Show</span><span
+          <button @click="seeExpired = !seeExpired" class="p-3"><span v-if="!seeExpired"> Show</span><span
               v-else> Hide</span> {{ expiredTasks.length }} expired tasks</button>
       
       </div>
     </div>
       <div class="max-h-10/12">
-        
-        <div v-if="seeExpired && actualFilter === 'Today'" class="bg-red-500 bg-opacity-10 border-b">
+        <Transition name="slide">
+        <div v-show="seeExpired && actualFilter === 'Today'" class="bg-red-500 bg-opacity-10 border-b overflow-hidden max-h-[500px]">
           <Task v-for="task in expiredTasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
+      </Transition>
         <div v-if="tasks.length > 0">
           <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
@@ -55,14 +56,18 @@
 
     <Transition name="create">
       <div v-show="creating || editing" class="absolute z-10 top-0 left-0 right-0 bottom-0">
+        
         <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
           v-if="creating" @close="creating = false" />
+       
         <Edit class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
           v-if="editing" @close="editing = false" :task="editingTask" />
+          
         <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
+        
       </div>
-
     </Transition>
+ 
 
   </div>
 </template>
@@ -183,11 +188,21 @@ function isExpired(date) {
 <style scoped>
 .create-enter-active,
 .create-leave-active {
-  transition: opacity .5s;
+  transition: opacity 0.5s ease;
 }
 
-.create-enter,
+.create-enter-from,
 .create-leave-to {
   opacity: 0;
+}
+
+.slide-enter-active, .slide-leave-active {
+  transition: all 1s ease;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  opacity: 0;
+  max-height: 0;
 }
 </style>

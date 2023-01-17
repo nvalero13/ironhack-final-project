@@ -63,10 +63,16 @@
       </div>
   
       </div>
-      <div class="w-12/12 mt-4 mx-4">
+      <div class="w-12/12 mt-4 mx-4 ">
         <label class="dark:text-white text-gray-400 text-sm" for="title">Subtasks</label>
-        <input v-model="subtasks[0]" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
+        <div class="max-h-[250px] overflow-auto">
+        <div v-for="subtask in subtasksNum" class="flex items-end gap-2">
+        <input v-model="subtasks[subtask-1]" class="h-12 w-11/12 block outline-none border-b dark:text-white dark:bg-slate-700"
           type="text" />
+        <button v-if="subtask == subtasks.length" :disabled="subtasks[subtask-1].length < 3" @click="handleAddSubtask()" class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:enabled:bg-emerald-500 hover:enabled:bg-opacity-25"><i class="fa-solid fa-plus"></i></button>
+        <button v-else :disabled="subtasks[subtask-1].length < 3" @click="handleDeleteSubtask(subtask)" class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:bg-red-500 hover:bg-opacity-25"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
     </div>
 
     <button @click="createTask" :disabled="isDisabled"
@@ -104,20 +110,34 @@ const date = ref(null);
 const desc = ref("");
 const selectedCategory = ref([]);
 const prio = ref(1);
-const subtasks = ref([])
+const subtasks = ref([""])
+const subtasksObj = computed(() => {
+  if(subtasks.value.length > 1) {
+  const newArray = subtasks.value.slice(0, -1).map(item => {
+    if(item !== "") {
+    return {title: item, done: false};
+    } else {
+      
+    }
+  });
+  return  JSON.stringify(newArray)
+  } else return null
+})
+console.log(subtasksObj.value)
+
 const ok = ref(false)
 
 const isDisabled = computed(() => title.value.length < 3)
 const newCategoryForm = ref(false);
 
 async function createTask() {
-
     await taskStore.createTask(
       title.value,
       desc.value,
       date.value,
       selectedCategory.value,
       prio.value,
+      subtasksObj.value,
       userStore.user.id
     )
       .then(() => {
@@ -125,10 +145,7 @@ async function createTask() {
 
         setTimeout(() => {
           emit("close");
-          title.value = "";
-          desc.value = "";
-          date.value = "";
-          selectedCategory.value = [];
+       
           taskStore.fetchTasks(userStore.user.id);
           ok.value = false
         }, 1000)
@@ -142,12 +159,51 @@ function addNewCategory(catId) {
   } else {
     selectedCategory.value.push(catId);
   }
+};
+
+const subtasksNum = ref(1);
+
+
+function handleAddSubtask() {
+  subtasks.value.push("")
+  subtasksNum.value++
 }
+
+function handleDeleteSubtask(index) {
+  subtasks.value.splice(index-1, 1)
+  subtasksNum.value--
+}
+
 </script>
 
 <style scoped>
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
+}
+
+/* width */
+::-webkit-scrollbar {
+  
+  width: 5px;
+  border-radius: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #282a32;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #ffffff;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #e1e1e1;
+  border-radius: 5px;
 }
 
 .bounce-enter-active {

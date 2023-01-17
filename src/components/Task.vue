@@ -46,27 +46,23 @@
           </div>
 
         </div>
-        <div v-if="details === true" class="pl-20">
+
+        <Transition name="slide">
+        <div v-show="details === true" class="pl-20 w-8/12 max-h-[300px] overflow-hidden">
           <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
-          <div>
-            <button
-              class="w-3 h-3 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
+          <div v-for="subtask in subtasksArray">
+            <button v-if="subtask.done == false"
+              class="w-4 h-4 mr-3 border-2 rounded-full  border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
             </button>
-            <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
-          </div>
-          <div>
-            <button
-              class="w-3 h-3 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
+            <button v-else
+              class="w-4 h-4 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
             </button>
-            <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
+            <span class="text-gray-500 dark:text-slate-500 text-sm">{{ subtask.title }}</span>
           </div>
-          <div>
-            <button
-              class="w-3 h-3 mr-3 border-2 rounded-full  border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
-            </button>
-            <span class="text-gray-500 dark:text-slate-500 text-sm">Bla bla bla </span>
-          </div>
+          
         </div>
+      </Transition>
+
       </div>
 
    
@@ -91,6 +87,9 @@ const props = defineProps(["task"]);
 const completed = ref(props.task.is_complete);
 
 const details = ref(false);
+const subtasksArray = ref(JSON.parse(props.task.subtasks))
+
+
 
 async function handleCompleteTask() {
   await taskStore.completeTask(props.task.id)
@@ -131,37 +130,13 @@ watch(
   opacity: 0;
 }
 
-.slide-enter-active {
-  -moz-transition-duration: 0.3s;
-  -webkit-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -moz-transition-timing-function: ease-in;
-  -webkit-transition-timing-function: ease-in;
-  -o-transition-timing-function: ease-in;
-  transition-timing-function: ease-in;
+.slide-enter-active, .slide-leave-active {
+  transition: all 1s ease;
 }
 
-.slide-leave-active {
-  -moz-transition-duration: 0.3s;
-  -webkit-transition-duration: 0.3s;
-  -o-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -moz-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  -webkit-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  -o-transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-}
-
-.slide-enter-to,
-.slide-leave {
-  max-height: 100px;
-  overflow: hidden;
-}
-
-.slide-enter,
+.slide-enter-from,
 .slide-leave-to {
-  overflow: hidden;
+  opacity: 0;
   max-height: 0;
 }
 </style>
