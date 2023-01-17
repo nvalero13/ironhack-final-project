@@ -7,7 +7,7 @@
         </button>
 
         <h1 class="p-4 text mb-2 border-b dark:text-white">
-            <i class="fa-solid fa-pencil mr-2"></i>Create a new category
+            Create a new category
         </h1>
 
         <div class="p-4 w-full min-w-[200px]">
