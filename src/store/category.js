@@ -22,6 +22,28 @@ export const useCategoryStore = defineStore("category", {
         throw error.message
       }
     },
+    async editCategory(title, color, icon, id) {
+      console.log("editing")
+      try {
+        const { error } = await supabase
+          .from("categories")
+          .update({
+            title: title,
+            color: color,
+            icon: icon,
+          })
+          .match({ id: id });
+      } catch (error) {
+        throw error.message;
+      }
+    },
+    async deleteCategory(id) {
+      try {
+        const { error } = await supabase.from("categories").delete().match({ id: id });
+      } catch (error) {
+        throw error.message;
+      }
+    },
     async fetchCategories(id) {
         const { data: categories } = await supabase
           .from("categories")

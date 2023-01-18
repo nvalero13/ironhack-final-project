@@ -1,6 +1,6 @@
 <template>
   <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] min-w-[800px] min-h-screen border-x relative">
-    <Menu @filter="handleFilter" @filterCat="handleFilterCat" :actualFilter="actualFilter.title" :expiredTasks="expiredTasks.length" />
+    <Menu @filter="handleFilter" @editCat="handleEditCat" @filterCat="handleFilterCat" :actualFilter="actualFilter.title" :expiredTasks="expiredTasks.length" />
     <div class="w-full">
       <div class="sticky top-0">
       <div
@@ -40,7 +40,7 @@
         </div>
         <div v-if="tasks.length == 0 && actualFilter != 'Logbook'" class="flex flex-col mt-32 justify-center items-center">
           <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.title.toLowerCase() }}
-            :(</h1>
+            <i class="fa-regular fa-face-sad-tear"></i></h1>
           <button @click="creating = true"
             class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
             Add your first {{ actualFilter.title.toLowerCase() }} task
@@ -50,13 +50,16 @@
     </div>
 
     <Transition name="create">
-      <div v-show="creating || editing" class="absolute z-10 top-0 left-0 right-0 bottom-0">
+      <div v-show="creating || editing || editingCat" class="absolute z-10 top-0 left-0 right-0 bottom-0">
         
-        <Create class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
+        <Create class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
           v-if="creating" @close="creating = false" />
        
-        <Edit class="create-container absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
+        <Edit class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
           v-if="editing" @close="editing = false" :task="editingTask" />
+
+        <EditCategory class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 shadow-lg"
+          :category="editingCategory" v-if="editingCat" @resetCatFilter="actualCatFilter=null" @close="editingCat = false" />
           
         <div class="w-full h-full dark:bg-black bg-gray-300 opacity-50"></div>
         
@@ -73,6 +76,7 @@ import { ref, watch, computed, onMounted } from "vue";
 import Task from "../components/Task.vue";
 import Menu from "../components/Menu.vue";
 import Create from "../components/Create.vue";
+import EditCategory from "../components/EditCategory.vue";
 import Edit from "../components/Edit.vue";
 
 import { useTaskStore } from "../store/task";
@@ -87,6 +91,8 @@ taskStore.fetchTasks(userStore.user.id);
 
 const creating = ref(false);
 const editing = ref(false);
+const editingCat = ref(false);
+const editingCategory = ref(null);
 const editingTask = ref()
 
 function edit(task) {
@@ -123,6 +129,13 @@ function handleFilter(param) {
 function handleFilterCat(param) {
  actualCatFilter.value = param
  applyFilter(actualFilter.value.title)
+}
+
+
+function handleEditCat(param) {
+
+  editingCategory.value = param
+  editingCat.value = true
 }
 
 const expiredTasks = ref([])

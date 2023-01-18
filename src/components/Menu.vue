@@ -25,11 +25,11 @@
 
         <button @click="handleActiveCat(category.id)" v-if="categories"
           v-for="category in categories" :key="category.id"
-          :class="activeCat === category.id ? `bg-${category.color} bg-opacity-75 hover:bg-opacity-50 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
-          class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left flex items-center dark:hover:bg-opacity transition-all">
-          <div class="w-5 mr-2 flex justify-center"><i class="m-auto" :class="`before:text-${category.color} ${category.icon}`"></i></div><span class="dark:text-white">{{
+          :class="activeCat === category.id ? `bg-${category.color} bg-opacity-50 hover:bg-opacity-25 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
+          class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left flex items-center justify-between text-slate-700 dark:text-slate-200 dark:hover:bg-opacity transition-all">
+          <div class="flex"><div class="w-5 mr-2 flex justify-center"><i class="m-auto" :class="category.icon"></i></div><span class="dark:text-white">{{
             category.title
-          }}</span>
+          }}</span></div><button @click.stop="$emit('editCat', category)" v-if="activeCat === category.id" class="w-6 h-6 rounded-full hover:bg-slate-200 hover:bg-opacity-25"><i class="fa-solid fa-ellipsis"></i></button>
         </button>
 
       </div>
@@ -70,9 +70,9 @@ const toggleDark = useToggle(isDark);
 const props = defineProps(["actualFilter", "expiredTasks"])
 const emit = defineEmits(["filter", "filterCat"])
 
-const active = ref('font-bold')
+
 const activeCat = ref("")
-const darkText = ref("🌙 Dark Mode");
+
 
 function logOut() {
   userStore.logOut;
@@ -81,19 +81,19 @@ function logOut() {
 
 const filterButtons = ref([{
   title: "Today",
-  icon: "fa-solid fa-calendar-day text-sky-400"
+  icon: "fa-solid fa-calendar-day text-indigo-600 dark:text-indigo-400"
 },
 {
   title: "Upcoming",
-  icon: "fa-solid fa-calendar-week text-blue-500"
+  icon: "fa-solid fa-calendar-week text-indigo-500 dark:text-indigo-300"
 },
 {
   title: "Sometime",
-  icon: "fa-solid fa-calendar text-indigo-400"
+  icon: "fa-solid fa-calendar text-indigo-400 dark:text-indigo-200"
 },
 {
   title: "Anytime",
-  icon: "fa-solid fa-clock text-slate-600 dark:text-gray-300"
+  icon: "fa-solid fa-clock text-indigo-300 dark:text-indigo-100"
 },
 {
   title: "Logbook",
