@@ -94,13 +94,13 @@ function edit(task) {
   editing.value = true;
 }
 
-const title = ref("Today");
-
 const tasks = ref(taskStore.tasks);
 const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
-const actualFilter = ref({title: "Today"});
+const actualFilter = ref({title: "Today",
+  icon: "fa-solid fa-calendar-day text-sky-500"});
+const actualCatFilter = ref(null)
 
 onMounted(async () => {
   await taskStore.fetchTasks(userStore.user.id)
@@ -121,15 +121,8 @@ function handleFilter(param) {
 
 
 function handleFilterCat(param) {
-console.log(param)
-    if (param) {
-    applyFilter()
-    tasks.value = tasks.value.filter((task) =>
-        task.categories.includes(param)
-      );
-    } else {
-    applyFilter()
-    }
+ actualCatFilter.value = param
+ applyFilter(actualFilter.value.title)
 }
 
 const expiredTasks = ref([])
@@ -165,6 +158,12 @@ function applyFilter(title) {
       tasks.value = taskStore.tasks.filter((task) => task.is_complete === true).reverse();
      
       break;
+  }
+
+  if (actualCatFilter.value) {
+  tasks.value = tasks.value.filter((task) =>
+        task.categories.includes(actualCatFilter.value)
+      );
   }
 }
 

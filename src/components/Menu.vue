@@ -107,9 +107,7 @@ watch(
   () => categoryStore.categories,
   () => {
     categories.value = categoryStore.categories
-    categories.value.forEach((category) => {
-      category.coloredIcon = `${category.icon} text-${category.color}`;
-    });
+    
   }
 );
 
