@@ -1,5 +1,5 @@
 <template>
-  <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] h-min-screen border-x relative">
+  <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] min-w-[800px] min-h-screen border-x relative">
     <Menu @filter="handleFilter" @filterCat="handleFilterCat" :actualFilter="actualFilter" :expiredTasks="expiredTasks.length" />
     <div class="w-full">
       <div class="sticky top-0">

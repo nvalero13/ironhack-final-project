@@ -54,10 +54,10 @@
           <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
           <div v-for="subtask, index in subtasksArray">
             <button @click.stop="handleCompleteSubtask(subtask, index)" v-if="subtask.done == false"
-              class="w-4 h-4 mr-3 border-2 rounded-full  border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
+              class="w-3 h-3 mr-3 border-2 rounded-full  border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
             </button>
             <button @click.stop="handleCompleteSubtask(subtask, index)" v-else
-              class="w-4 h-4 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
+              class="w-3 h-3 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
             </button>
             <span class="text-gray-500 dark:text-slate-500 text-sm">{{ subtask.title }}</span>
           </div>

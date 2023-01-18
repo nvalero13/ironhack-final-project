@@ -62,8 +62,24 @@
 
                 </div>
             </div>
+        </div>
 
-
+        <div v-if="subtasks" class="w-12/12 mt-4 mx-4 ">
+            <label class="dark:text-white text-gray-400 text-sm" for="title">Subtasks</label>
+            <div class="max-h-[250px] overflow-auto">
+                <div v-for="subtask in subtasks.length" class="flex items-end gap-2">
+                    <input v-model="subtasks[subtask - 1].title"
+                        class="h-12 w-11/12 block outline-none border-b dark:text-white dark:bg-slate-700"
+                        type="text" />
+                    <button v-if="subtask == subtasks.length" :disabled="subtasks[subtask - 1].title.length < 3"
+                        @click="handleAddSubtask()"
+                        class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:enabled:bg-emerald-500 hover:enabled:bg-opacity-25"><i
+                            class="fa-solid fa-plus"></i></button>
+                    <button v-else @click="handleDeleteSubtask(subtask)"
+                        class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:bg-red-500 hover:bg-opacity-25"><i
+                            class="fa-solid fa-trash"></i></button>
+                </div>
+            </div>
         </div>
 
         <div class="absolute right-1/2 translate-x-1/2 -bottom-5 flex gap-2">
@@ -123,6 +139,12 @@ const date = ref(props.task.due_date);
 const desc = ref(props.task.desc);
 const selectedCategory = ref(props.task.categories);
 const prio = ref(props.task.priority);
+const subtasks = ref(JSON.parse(props.task.subtasks))
+const subtasksObj = computed(() => {
+    if (subtasks.value[subtasks.value.length-1].title != "") {
+        return JSON.stringify(subtasks.value)
+    } else return JSON.stringify(subtasks.value.slice(0, subtasks.value.length-1))
+})
 const ok = ref(false)
 const errorMsg = ref("")
 const okDelete = ref(false)
@@ -138,6 +160,7 @@ async function editTask() {
             date.value,
             selectedCategory.value,
             prio.value,
+            subtasksObj.value,
             props.task.id
         )
             .then(() => {
@@ -181,6 +204,15 @@ function addNewCategory(catId) {
         selectedCategory.value.push(catId);
     }
 }
+
+function handleAddSubtask() {
+  subtasks.value.push({title: "", done:false})
+}
+
+function handleDeleteSubtask(index) {
+  subtasks.value.splice(index-1, 1)
+}
+
 </script>
 
 <style scoped>

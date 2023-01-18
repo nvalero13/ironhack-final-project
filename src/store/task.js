@@ -37,7 +37,7 @@ export const useTaskStore = defineStore("tasks", {
       }
     },
 
-    async editTask(title, desc, date, category, prio, id) {
+    async editTask(title, desc, date, category, prio, subtasks, id) {
       try {
         const { error } = await supabase
           .from("tasks")
@@ -47,6 +47,7 @@ export const useTaskStore = defineStore("tasks", {
             due_date: date,
             priority: prio,
             categories: category,
+            subtasks: subtasks,
           })
           .match({ id: id });
       } catch (error) {
