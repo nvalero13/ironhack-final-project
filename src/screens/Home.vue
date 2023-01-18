@@ -1,19 +1,14 @@
 <template>
   <div class="flex mx-auto bg-gray-50 dark:bg-slate-800 max-w-[1200px] min-w-[800px] min-h-screen border-x relative">
-    <Menu @filter="handleFilter" @filterCat="handleFilterCat" :actualFilter="actualFilter" :expiredTasks="expiredTasks.length" />
+    <Menu @filter="handleFilter" @filterCat="handleFilterCat" :actualFilter="actualFilter.title" :expiredTasks="expiredTasks.length" />
     <div class="w-full">
       <div class="sticky top-0">
       <div
         class="flex justify-between items-center  z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12">
         <div>
           <h1 class="text-3xl mb-2 dark:text-white">
-            <i v-if="actualFilter === 'Upcoming'" class="fa-solid fa-calendar-week m-2 text-orange-400"></i>
-            <i v-if="actualFilter === 'Today'" class="fa-solid fa-calendar-day m-2 text-yellow-400"></i>
-            <i v-if="actualFilter === 'Anytime'" class="fa-solid fa-clock m-2 text-slate-600 dark:text-gray-300"></i>
-            <div class="inline-block" v-if="actualFilter === 'Logbook'">
-              <i class="fa-solid fa-clipboard-check m-2 text-emerald-400"></i>
-            </div>
-            {{ title }}
+            <i class="ml-2 w-8" :class="actualFilter.icon"></i>
+            {{ actualFilter.title }}
           </h1>
           <h2 v-if="actualFilter != 'Logbook' && tasks.length > 0" class="text-md font-light ml-2 dark:text-slate-400">
             {{ doneTaskNum }} out of {{ taskNum }} tasks completed
@@ -44,11 +39,11 @@
           <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
         <div v-if="tasks.length == 0 && actualFilter != 'Logbook'" class="flex flex-col mt-32 justify-center items-center">
-          <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.toLowerCase() }}
+          <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.title.toLowerCase() }}
             :(</h1>
           <button @click="creating = true"
             class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
-            Add your first {{ actualFilter.toLowerCase() }} task
+            Add your first {{ actualFilter.title.toLowerCase() }} task
           </button>
         </div>
       </div>
@@ -105,7 +100,7 @@ const tasks = ref(taskStore.tasks);
 const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
-const actualFilter = ref("Today");
+const actualFilter = ref({title: "Today"});
 
 onMounted(async () => {
   await taskStore.fetchTasks(userStore.user.id)
@@ -115,13 +110,13 @@ onMounted(async () => {
 watch(
   () => taskStore.tasks,
   () => {
-    applyFilter(actualFilter.value);
+    applyFilter(actualFilter.value.title);
   }
 );
 
 function handleFilter(param) {
   actualFilter.value = param;
-  applyFilter(actualFilter.value);
+  applyFilter(actualFilter.value.title);
 }
 
 
@@ -140,12 +135,11 @@ console.log(param)
 const expiredTasks = ref([])
 const seeExpired = ref(false)
 
-function applyFilter() {
+function applyFilter(title) {
   if (seeExpired.value == true) seeExpired.value = false
   
-  switch (actualFilter.value) {
+  switch (title) {
     case "Today":
-      title.value = "Today";
       tasks.value = taskStore.tasks.filter((task) =>
         isToday(new Date(task.due_date))
       );
@@ -153,20 +147,23 @@ function applyFilter() {
         isExpired(new Date(task.due_date)) && !task.is_complete && task.due_date)
       break;
     case "Upcoming":
-      title.value = "Upcoming";
       tasks.value = taskStore.tasks.filter((task) =>
         isWithinNext7Days(new Date(task.due_date))
       );
       break;
+      case "Sometime":
+      tasks.value = taskStore.tasks.filter((task) =>
+        isBeyond7Days(new Date(task.due_date))
+      );
+      break;
     case "Anytime":
-      title.value = "Anytime";
       tasks.value = taskStore.tasks.filter((task) =>
         !task.due_date
       );
       break;
     case "Logbook":
-      title.value = "Logbook";
-      tasks.value = taskStore.tasks.filter((task) => task.is_complete === true);
+      tasks.value = taskStore.tasks.filter((task) => task.is_complete === true).reverse();
+     
       break;
   }
 }
@@ -176,6 +173,11 @@ const isToday = (first) =>
   first.getFullYear() === today.getFullYear() &&
   first.getMonth() === today.getMonth() &&
   first.getDate() === today.getDate();
+
+function isBeyond7Days(date) {
+  const oneWeek = 7 * 24 * 60 * 60 * 1000;
+  return (date.setHours(0,0,0,0) - today.setHours(0,0,0,0)) > oneWeek;
+}
 
 function isWithinNext7Days(date) {
   const oneWeek = 7 * 24 * 60 * 60 * 1000;

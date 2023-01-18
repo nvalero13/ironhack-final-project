@@ -113,7 +113,7 @@ async function handleCompleteSubtask(subtask, index) {
 
 const taskCategories = ref("");
 const dueDate = new Date(props.task.due_date);
-const dueDateString = `${dueDate.getDate()}/${('0' + (dueDate.getMonth() + 1)).slice(-2)}`;
+const dueDateString = `${('0' + (dueDate.getDate())).slice(-2)}/${('0' + (dueDate.getMonth() + 1)).slice(-2)}`;
 
 onMounted(() => {
   if (props.task.categories) taskCategories.value = categoryStore.categories.filter(cat => props.task.categories.includes(cat.id));
@@ -122,6 +122,11 @@ onMounted(() => {
 watch(
   () => props.task.categories,
   () => taskCategories.value = categoryStore.categories.filter(cat => props.task.categories.includes(cat.id))
+)
+
+watch(
+  () => props.task.subtasks,
+  () => subtasksArray.value = JSON.parse(props.task.subtasks)
 )
 
 

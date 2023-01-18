@@ -7,7 +7,7 @@
 
       <div class="flex flex-col mt-14 pb-4 border-b  border-slate-500">
         <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
-          <button @click="$emit('filter', filterButton.title)"
+          <button @click="$emit('filter', filterButton)"
             class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between"
             :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500': props.actualFilter === filterButton.title }">
             <div><i class="w-5 mr-2" :class="filterButton.icon"></i>{{ filterButton.title }}</div>
@@ -81,11 +81,15 @@ function logOut() {
 
 const filterButtons = ref([{
   title: "Today",
-  icon: "fa-solid fa-calendar-day text-yellow-400"
+  icon: "fa-solid fa-calendar-day text-sky-400"
 },
 {
   title: "Upcoming",
-  icon: "fa-solid fa-calendar-week text-orange-400"
+  icon: "fa-solid fa-calendar-week text-blue-500"
+},
+{
+  title: "Sometime",
+  icon: "fa-solid fa-calendar text-indigo-400"
 },
 {
   title: "Anytime",
