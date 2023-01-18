@@ -69,6 +69,15 @@ export const useTaskStore = defineStore("tasks", {
       } catch (error) {}
     },
 
+    async completeSubtask(subtasks, id) {
+      try {
+        const { error } = await supabase
+          .from("tasks")
+          .update({ subtasks: subtasks })
+          .eq("id", id);
+      } catch (error) {}
+    },
+
     async undoCompleteTask(taskId) {
       try {
         const { error } = await supabase

@@ -68,7 +68,7 @@ const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
 const props = defineProps(["actualFilter", "expiredTasks"])
-const emit = defineEmits(["filterCat"])
+const emit = defineEmits(["filter", "filterCat"])
 
 const active = ref('font-bold')
 const activeCat = ref("")

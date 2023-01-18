@@ -141,6 +141,8 @@ const expiredTasks = ref([])
 const seeExpired = ref(false)
 
 function applyFilter() {
+  if (seeExpired.value == true) seeExpired.value = false
+  
   switch (actualFilter.value) {
     case "Today":
       title.value = "Today";
@@ -183,6 +185,15 @@ function isWithinNext7Days(date) {
 function isExpired(date) {
   return date.setHours(0,0,0,0) < today.setHours(0,0,0,0);
 }
+
+// Observar amplitud per amagar menu
+// watch(() => window.innerWidth,
+// () => {
+//   if(window.innerWidth > 600) {
+
+//   }
+// })
+
 </script>
 
 <style scoped>
@@ -196,10 +207,13 @@ function isExpired(date) {
   opacity: 0;
 }
 
-.slide-enter-active, .slide-leave-active {
-  transition: all 1s ease;
+.slide-enter-active {
+  transition: all 0.7s ease;
 }
 
+.slide-leave-active {
+  transition: all 0.1s ease;
+}
 .slide-enter-from,
 .slide-leave-to {
   opacity: 0;

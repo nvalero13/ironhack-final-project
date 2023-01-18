@@ -1,5 +1,5 @@
 <template>
-  <div @click="details = !details">
+  <div @click="task.desc || task.subtasks ? details = !details : ''">
 
     <!-- INITIAL TASK  -->
 
@@ -16,14 +16,16 @@
                 <i class="fa-solid fa-check text-white"></i>
               </button>
             </Transition>
-            <div>
+            <div class="flex items-center">
               <h1 class="inline-block font-light text-lg dark:text-slate-200">{{ task.title }}</h1>
-              <!-- <i class="fa-solid fa-list-check text-sm dark:text-slate-200 ml-3 mr-2"></i> -->
-              <i v-if="task.priority == 2" class="fa-solid fa-bell text-orange-300 ml-2"></i>
-              <i v-else-if="task.priority == 3" class="fa-solid fa-bell text-red-400 ml-2"></i>
-              <div class="inline" v-if="task.due_date">
-                <i class="fa-regular fa-calendar text-sm dark:text-slate-400 ml-3 mr-1"></i>
-                <span class="text-sm font-light dark:text-slate-400">{{ dueDateString }}</span>
+              <i v-if="task.priority == 2" class="text-sm fa-solid fa-bell text-orange-300 ml-2"></i>
+              <i v-else-if="task.priority == 3" class="text-sm fa-solid fa-bell text-red-400 ml-2"></i>
+              <div class="inline" v-if="task.subtasks">
+                <i class="fa-solid fa-list-check text-sm dark:text-slate-200 text-slate-800 ml-2"></i>
+              </div>
+              <div class="text-sm dark:text-slate-400 text-slate-600" v-if="task.due_date">
+                <i class="fa-regular fa-calendar  ml-2 mr-1"></i>
+                <span class=" font-light">{{ dueDateString }}</span>
               </div>
 
             </div>
@@ -48,13 +50,13 @@
         </div>
 
         <Transition name="slide">
-        <div v-show="details === true" class="pl-20 w-8/12 max-h-[300px] overflow-hidden">
+        <div v-show="details === true" class="pl-20 w-7/12 overflow-hidden" :class="task.subtasks ? `max-h-[300px]` : `max-h-[100px]`">
           <p class="text-gray-500 dark:text-slate-500 text-sm mb-2">{{ task.desc }}</p>
-          <div v-for="subtask in subtasksArray">
-            <button v-if="subtask.done == false"
+          <div v-for="subtask, index in subtasksArray">
+            <button @click.stop="handleCompleteSubtask(subtask, index)" v-if="subtask.done == false"
               class="w-4 h-4 mr-3 border-2 rounded-full  border-slate-900 dark:border-slate-300 hover:bg-slate-600 transition-all">
             </button>
-            <button v-else
+            <button @click.stop="handleCompleteSubtask(subtask, index)" v-else
               class="w-4 h-4 mr-3 border-2 rounded-full border-emerald-700 bg-emerald-500 dark:border-emerald-300 hover:bg-emerald-900 transition-all">
             </button>
             <span class="text-gray-500 dark:text-slate-500 text-sm">{{ subtask.title }}</span>
@@ -89,8 +91,6 @@ const completed = ref(props.task.is_complete);
 const details = ref(false);
 const subtasksArray = ref(JSON.parse(props.task.subtasks))
 
-
-
 async function handleCompleteTask() {
   await taskStore.completeTask(props.task.id)
   taskStore.fetchTasks(userStore.user.id)
@@ -101,6 +101,14 @@ async function handleUndoCompleteTask() {
   await taskStore.undoCompleteTask(props.task.id)
   taskStore.fetchTasks(userStore.user.id)
   completed.value = false;
+}
+
+async function handleCompleteSubtask(subtask, index) {
+  if (!subtask.done) subtask.done = true  
+  else subtask.done = false
+  
+  await taskStore.completeSubtask(JSON.stringify(subtasksArray.value) , props.task.id)
+  taskStore.fetchTasks(userStore.user.id)
 }
 
 const taskCategories = ref("");
@@ -130,8 +138,12 @@ watch(
   opacity: 0;
 }
 
-.slide-enter-active, .slide-leave-active {
-  transition: all 1s ease;
+.slide-enter-active {
+  transition: all 0.7s ease;
+}
+
+.slide-leave-active {
+  transition: all 0.5s ease-out;
 }
 
 .slide-enter-from,
