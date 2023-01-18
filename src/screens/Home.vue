@@ -4,7 +4,7 @@
     <div class="w-full">
       <div class="sticky top-0">
       <div
-        class="flex justify-between items-center  z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b h-10/12">
+        class="flex justify-between items-center  z-10 bg-gray-50 dark:bg-slate-800 px-10 pt-12 pb-6 border-b min-h-[150px]">
         <div>
           <h1 class="text-3xl mb-2 dark:text-white">
             <i class="ml-2 w-8" :class="actualFilter.icon"></i>

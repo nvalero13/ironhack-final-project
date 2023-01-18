@@ -8,9 +8,9 @@
       <div class="flex flex-col mt-14 pb-4 border-b  border-slate-500">
         <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
           <button @click="$emit('filter', filterButton)"
-            class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between"
+            class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex items-center"
             :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500': props.actualFilter === filterButton.title }">
-            <div><i class="w-5 mr-2" :class="filterButton.icon"></i>{{ filterButton.title }}</div>
+            <div class="w-5 mr-2 flex justify-center"><i :class="filterButton.icon"></i></div>{{ filterButton.title }}
 
             <p v-if="filterButton.title == 'Today' && expiredTasks > 0"
               class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
@@ -26,8 +26,8 @@
         <button @click="handleActiveCat(category.id)" v-if="categories"
           v-for="category in categories" :key="category.id"
           :class="activeCat === category.id ? `bg-${category.color} bg-opacity-75 hover:bg-opacity-50 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
-          class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left  dark:hover:bg-opacity transition-all">
-          <i class="w-5 mr-2" :class="`before:text-${category.color} ${category.icon}`"></i><span class="dark:text-white">{{
+          class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left flex items-center dark:hover:bg-opacity transition-all">
+          <div class="w-5 mr-2 flex justify-center"><i class="m-auto" :class="`before:text-${category.color} ${category.icon}`"></i></div><span class="dark:text-white">{{
             category.title
           }}</span>
         </button>
