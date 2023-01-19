@@ -76,7 +76,7 @@ colors.value.forEach((color) => {
 });
 
 
-const icons = ref(["fa-solid fa-star", "fa-solid fa-fire", "fa-solid fa-house", "fa-solid fa-envelope", "fa-solid fa-cart-shopping", "fa-solid fa-book" , "fa-solid fa-car", "fa-solid fa-briefcase", "fa-solid fa-paw", "fa-solid fa-briefcase-medical", "fa-solid fa-cash-register", "fa-solid fa-person-running", "fa-solid fa-palette", "fa-solid fa-pen-nib", "fa-solid fa-plane-up", "fa-solid fa-dumbbell",  "fa-solid fa-camera", "fa-solid fa-cloud", "fa-solid fa-lock", "fa-solid fa-poo"]);
+const icons = ref(["fa-solid fa-star", "fa-solid fa-fire", "fa-solid fa-house", "fa-solid fa-envelope", "fa-solid fa-cart-shopping", "fa-solid fa-book" , "fa-solid fa-car", "fa-solid fa-briefcase", "fa-solid fa-paw", "fa-solid fa-briefcase-medical", "fa-solid fa-cash-register", "fa-solid fa-person-running", "fa-solid fa-palette", "fa-solid fa-pen-nib", "fa-solid fa-plane-up", "fa-solid fa-dumbbell",  "fa-solid fa-camera", "fa-solid fa-microphone-lines", "fa-solid fa-lock", "fa-solid fa-poo"]);
 
 async function editCategory() {
 

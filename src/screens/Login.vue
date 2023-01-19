@@ -6,7 +6,7 @@
 
         <div class="rounded-sm shadow-lg bg-slate-100 w-[400px] p-5 z-10">
             <h1 class="text-slate-500 text-2xl uppercase">Login</h1>
-            <form @submit.prevent="login" class="mt-5 mb-10">
+            <form @submit.prevent="handleSignIn()" class="mt-5 mb-10">
                 <label for="Email" class="text-slate-500 block my-2">Email</label>
                 <input v-model="email" type="text" name="Email" class="w-full p-2 rounded-sm outline-none">
                 <label for="Password" class="text-slate-500 block my-2">Password</label>
@@ -25,7 +25,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
 import { useUserStore } from "../store/user";
 
@@ -35,22 +34,21 @@ const email = ref(null);
 const password = ref(null);
 const errorMsg = ref(null);
 const router = useRouter();
+
+async function handleSignIn() {
+    await userStore
+      .signIn(email.value, password.value)
+      .then(async () => {
+        await userStore.fetchUser();
+        router.push("/");
+      })
     
-const login = async () => {
-    try {
-        const {error} = await supabase.auth.signIn({
-            email: email.value,
-            password: password.value
-        });
-        if (error) throw error;
-        userStore.fetchUser()
-        router.push({name: "Home"})
-    } catch(error) {
-        errorMsg.value = `Error: ${error.message}`
+      .catch((err) => {
+        errorMsg.value = `Error: ${err.message}`
         setTimeout(() => {
             errorMsg.value = null
         }, 5000);
-    }
+      });
 }
 
 </script>

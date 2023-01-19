@@ -4,7 +4,7 @@
         <h1 class="text-3xl font-light text-white mb-10 uppercase">Welcome</h1>
         <div class="rounded-sm shadow-lg bg-slate-100 w-[400px] p-5 z-10">
             <h1 class="text-slate-500 text-2xl uppercase">Register</h1>
-            <form @submit.prevent="register" class="mt-5 mb-10">
+            <form @submit.prevent="handleRegister()" class="mt-5 mb-10">
                 <label for="Email" class="text-slate-500 block my-2">Email</label>
                 <input v-model="email" type="text" name="Email" class="w-full p-2 rounded-sm outline-none">
                 <label for="Password" class="text-slate-500 block my-2">Password</label>
@@ -28,35 +28,36 @@ import { ref } from 'vue';
 import { supabase } from '../supabase';
 import { useRouter } from 'vue-router';
 import router from '../router';
+import { useUserStore } from "../store/user";
+
+const userStore = useUserStore();
 
 const email = ref(null);
 const password = ref(null);
 const confirmPassword = ref(null);
 const errorMsg = ref(null);
 
-const register = async () => {
+async function handleRegister() {
     if (password.value === confirmPassword.value) {
-        try {
-            const { error } = await supabase.auth.signUp({
-                email: email.value,
-                password: password.value
-            });
-            if ( error ) throw error;
-            router.push({ name: "Login"})
-        }
-        catch (error) {
-            errorMsg.value = error.message;
-            setTimeout(() => {
+    await userStore
+      .signUp(email.value, password.value)
+      .then(async () => {
+        router.push("/login");
+      })
+    
+      .catch((err) => {
+        errorMsg.value = `Error: ${err.message}`
+        setTimeout(() => {
             errorMsg.value = null
-            }, 5000);
-        }
-        return
-    }
+        }, 5000);
+      });
+    } else {
         errorMsg.value = "Error: Passwords do not match";
         setTimeout(() => {
             errorMsg.value = null
         }, 5000);
-};
+    }
+}
 
 </script>
 
