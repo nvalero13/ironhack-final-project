@@ -1,7 +1,7 @@
 <template>
     <div class="bg-white dark:bg-slate-700 border absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pb-6">
         <button
-            class="bg-red-500 absolute -top-4 -right-4 border my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600"
+            class="bg-red-500 absolute -top-4 -right-4 my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600"
             @click="$emit('close')">
             <i class="fa-solid fa-xmark text-white text-xl"></i>
         </button>
@@ -37,7 +37,7 @@
         </div>
 
         <button @click="createCategory" :disabled="isDisabled"
-            class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 w-20 bg-emerald-500 shadow-md text-2xl text-white font-bold enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
+            class="absolute right-1/2 translate-x-1/2 -bottom-5 disabled:border rounded-full h-10 w-20 bg-emerald-500 shadow-md text-2xl text-white font-bold enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
             <i class="fa-solid fa-plus"></i>
         </button>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white dark:bg-slate-700 border w-10/12 pb-10">
     <button
-      class="bg-red-500 absolute -top-4 -right-4 border my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600 z-20"
+      class="bg-red-500 absolute -top-4 -right-4 my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600 z-20"
       @click="$emit('close'); newCategoryForm = false">
       <i class="fa-solid fa-xmark text-white text-xl"></i>
     </button>
@@ -81,7 +81,7 @@
     </div>
 
     <button @click="createTask" :disabled="isDisabled"
-      class="absolute right-1/2 translate-x-1/2 -bottom-5 border rounded-full h-10 px-4 bg-emerald-500 shadow-md text-white enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
+      class="absolute right-1/2 translate-x-1/2 -bottom-5 disabled:border rounded-full h-10 px-4 bg-emerald-500 shadow-md text-white enabled:hover:scale-105 enabled:hover:bg-emerald-600 disabled:bg-gray-200 dark:disabled:bg-slate-700 transition-all">
       <i class="fa-solid fa-pencil"></i>
       Create
     </button>

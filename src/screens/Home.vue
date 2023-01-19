@@ -18,7 +18,7 @@
           </h2>
         </div>
         <button @click="creating = true"
-          class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
+          class="px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white">
           New task
         </button>
       </div>
@@ -43,7 +43,7 @@
             <span class="mr-2" v-if="actualCatFilter">as {{ categoryStore.categories.find(category => category.id === actualCatFilter).title.toLowerCase() }} </span>yet
             <i class="fa-regular fa-face-sad-tear"></i></h1>
           <button @click="creating = true"
-            class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
+            class="px-4 py-2 rounded-full bg-emerald-500 hover:bg-emerald-600 text-white">
             Add a new task
           </button>
         </div>
