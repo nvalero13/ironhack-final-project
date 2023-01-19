@@ -3,9 +3,9 @@
     class="flex flex-col justify-between w-[350px] h-screen px-6 bg-gray-100 dark:bg-slate-700 dark:text-white sticky top-0 border-x">
     <div class="flex flex-col justify-start items-left">
       <img v-if="isDark" class="object-fit ml-4 mt-16 w-6/12" src="../assets/logo-white.svg" alt="Logo" />
-      <img v-else class="object-fit ml-2 mt-16 w-6/12" src="../assets/logo-black.svg" alt="Logo" />
+      <img v-else class="object-fit ml-4 mt-16 w-6/12" src="../assets/logo-black.svg" alt="Logo" />
 
-      <div class="flex flex-col mt-8 pb-4 border-b  border-slate-500">
+      <div class="flex flex-col mt-8 pb-4 border-b  dark:border-slate-500">
         <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
           <div></div>
           <button @click="$emit('filter', filterButton)"

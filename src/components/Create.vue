@@ -67,7 +67,7 @@
       <label class="dark:text-white text-gray-400 text-sm" for="title">Subtasks</label>
       <div class="max-h-[250px] overflow-auto">
         <div v-for="subtask in subtasksNum" class="flex items-end gap-2">
-          <input v-model="subtasks[subtask - 1]"
+          <input v-model="subtasks[subtask - 1]" :placeholder="`Optional subtask ${subtasks.length}`"
             class="h-12 w-11/12 block outline-none border-b dark:text-white dark:bg-slate-700" maxlength="60" type="text" />
           <button v-if="subtask == subtasks.length" :disabled="subtasks[subtask - 1].length < 3"
             @click="handleAddSubtask()"
