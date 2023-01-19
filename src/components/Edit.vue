@@ -169,12 +169,14 @@ if (props.task.subtasks) {
 
 })
 
+const duedate = computed(() => date.value === "" ? null : date.value)
+
 async function editTask() {
     if (title.value.length > 3) {
         await taskStore.editTask(
             title.value,
             desc.value,
-            date.value,
+            duedate.value,
             selectedCategory.value,
             prio.value,
             subtasksObj.value,
@@ -193,7 +195,7 @@ async function editTask() {
                 errorMsg.value = error;
 
                 setTimeout(() => {
-                    errorMsg.value = "false"
+                    error.value = "false"
                 }, 1000)
             })
     }
