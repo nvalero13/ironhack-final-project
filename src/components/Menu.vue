@@ -38,16 +38,16 @@
     </div>
     <div>
       <button v-show="!isDark" @click="toggleDark()"
-        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-        🌙 Dark Mode
+        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 flex items-center transition-all">
+        <i class="fa-solid fa-moon mr-2 text-yellow-400"></i> Dark Mode
       </button>
       <button v-show="isDark" @click="toggleDark()"
-        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-        ☀️ Light Mode
+        class=" p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 flex items-center transition-all">
+        <i class="fa-solid fa-sun mr-2 text-yellow-400"></i> Light Mode
       </button>
       <button @click="logOut"
-        class="mb-10 p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all">
-        🙋 Log out
+        class="mb-10 p-1.5 my-0.5 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 flex items-center transition-all">
+        <i class="fa-solid fa-door-open mr-2"></i> Log out
       </button>
     </div>
   </div>
