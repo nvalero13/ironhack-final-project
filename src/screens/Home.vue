@@ -105,8 +105,10 @@ const tasks = ref(taskStore.tasks);
 const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
-const actualFilter = ref({title: "Today",
-  icon: "fa-solid fa-calendar-day text-indigo-600 dark:text-indigo-400"});
+const actualFilter = ref({
+  title: "Inbox",
+  icon: "fa-solid fa-inbox text-indigo-700 dark:text-indigo-500"
+});
 const actualCatFilter = ref(null)
 
 onMounted(async () => {
@@ -122,8 +124,16 @@ watch(
 );
 
 function handleFilter(param) {
+  if(actualFilter.value !== param) {
   actualFilter.value = param;
   applyFilter(actualFilter.value.title);
+  } else {
+  actualFilter.value = {
+  title: "Inbox",
+  icon: "fa-solid fa-inbox text-indigo-700 dark:text-indigo-500"
+}, 
+  applyFilter(actualFilter.value.title);
+  }
 }
 
 
@@ -146,6 +156,11 @@ function applyFilter(title) {
   if (seeExpired.value == true) seeExpired.value = false
   
   switch (title) {
+    case "Inbox":
+      tasks.value = taskStore.tasks.filter((task) =>
+        isBeyondToday(new Date(task.due_date))
+      );
+      break;
     case "Today":
       tasks.value = taskStore.tasks.filter((task) =>
         isToday(new Date(task.due_date))
@@ -186,6 +201,10 @@ const isToday = (first) =>
   first.getFullYear() === today.getFullYear() &&
   first.getMonth() === today.getMonth() &&
   first.getDate() === today.getDate();
+
+function isBeyondToday(date) {
+  return (date.setHours(0,0,0,0) - today.setHours(0,0,0,0)) > -1;
+}
 
 function isBeyond7Days(date) {
   const oneWeek = 7 * 24 * 60 * 60 * 1000;
