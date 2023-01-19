@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-white dark:bg-slate-700 border absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pb-6">
+    <div class="bg-white dark:bg-slate-700 border absolute max-w-[395px] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pb-6">
         <button
             class="bg-red-500 absolute -top-4 -right-4 my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600"
             @click="$emit('close')">
