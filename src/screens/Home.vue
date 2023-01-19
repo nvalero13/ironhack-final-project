@@ -10,10 +10,10 @@
             <i class="ml-2 w-8" :class="actualFilter.icon"></i>
             {{ actualFilter.title }}
           </h1>
-          <h2 v-if="actualFilter != 'Logbook' && tasks.length > 0" class="text-md font-light ml-2 dark:text-slate-400">
-            {{ doneTaskNum }} out of {{ taskNum }} tasks completed
+          <h2 v-if="actualFilter.title != 'Logbook' && tasks.length > 0" class="text-md font-light ml-2 dark:text-slate-400">
+            {{ doneTaskNum }} out of {{ taskNum }} tasks completed<span v-if="doneTaskNum == taskNum && actualFilter.title != 'Logbook' && actualFilter.title != 'Inbox'">. Well done!</span>
           </h2>
-          <h2 v-if="actualFilter == 'Logbook' " class="text-md font-light ml-2 dark:text-slate-400">
+          <h2 v-if="actualFilter.title == 'Logbook' " class="text-md font-light ml-2 dark:text-slate-400">
             {{ taskNum }} tasks completed
           </h2>
         </div>
@@ -159,7 +159,8 @@ function applyFilter(title) {
     case "Inbox":
       tasks.value = taskStore.tasks.filter((task) =>
         isBeyondToday(new Date(task.due_date))
-      );
+      )
+      tasks.value = tasks.value.filter((task) => task.is_complete === false);
       break;
     case "Today":
       tasks.value = taskStore.tasks.filter((task) =>
