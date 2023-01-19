@@ -98,10 +98,6 @@ async function deleteCategory() {
     emit("close");
     emit("resetCatFilter");
     categoryStore.fetchCategories(userStore.user.id);
-
-
-
-
     taskStore.fetchTasks(userStore.user.id);
 }
 

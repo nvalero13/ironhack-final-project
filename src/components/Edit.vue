@@ -73,10 +73,10 @@
                         type="text" />
                     <button v-if="subtask == subtasks.length" :disabled="subtasks[subtask - 1].title.length < 3"
                         @click="handleAddSubtask()"
-                        class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:enabled:bg-emerald-500 hover:enabled:bg-opacity-25"><i
+                        class="text-sm w-1/12 mr-1 h-10 text-slate-700 dark:text-white border rounded-full disabled:opacity-50 hover:enabled:bg-emerald-500 hover:enabled:bg-opacity-25"><i
                             class="fa-solid fa-plus"></i></button>
                     <button v-else @click="handleDeleteSubtask(subtask)"
-                        class="text-sm w-1/12 mr-1 h-10 text-white border rounded-full disabled:opacity-50 hover:bg-red-500 hover:bg-opacity-25"><i
+                        class="text-sm w-1/12 mr-1 h-10 text-slate-700 dark:text-white border rounded-full disabled:opacity-50 hover:bg-red-500 hover:bg-opacity-25"><i
                             class="fa-solid fa-trash"></i></button>
                 </div>
             </div>
@@ -119,7 +119,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
+import { ref, computed, watch, onMounted } from "vue";
 
 import CreateCategory from "./CreateCategory.vue"
 
@@ -139,11 +139,19 @@ const date = ref(props.task.due_date);
 const desc = ref(props.task.desc);
 const selectedCategory = ref(props.task.categories);
 const prio = ref(props.task.priority);
-const subtasks = ref(JSON.parse(props.task.subtasks))
+const subtasks = ref(null)
 const subtasksObj = computed(() => {
+    if(subtasks.value) {
+        console.log(subtasks.value.length-1)
     if (subtasks.value[subtasks.value.length-1].title != "") {
         return JSON.stringify(subtasks.value)
-    } else return JSON.stringify(subtasks.value.slice(0, subtasks.value.length-1))
+    } else if (subtasks.value.length == 1) {
+        return null
+    }
+    return JSON.stringify(subtasks.value.slice(0, subtasks.value.length-1))
+    } else {
+        return null
+    }
 })
 const ok = ref(false)
 const errorMsg = ref("")
@@ -151,6 +159,15 @@ const okDelete = ref(false)
 
 const isDisabled = computed(() => title.value.length < 3)
 const newCategoryForm = ref(false);
+
+onMounted(() => {
+if (props.task.subtasks) {
+    subtasks.value = JSON.parse(props.task.subtasks)
+} else {
+    subtasks.value = [{title:"",done:false}]
+}
+
+})
 
 async function editTask() {
     if (title.value.length > 3) {
@@ -205,12 +222,16 @@ function addNewCategory(catId) {
     }
 }
 
+const subtasksNum = ref(1);
+
 function handleAddSubtask() {
   subtasks.value.push({title: "", done:false})
+
 }
 
 function handleDeleteSubtask(index) {
   subtasks.value.splice(index-1, 1)
+
 }
 
 </script>

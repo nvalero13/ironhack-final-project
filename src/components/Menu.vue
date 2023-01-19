@@ -7,17 +7,19 @@
 
       <div class="flex flex-col mt-14 pb-4 border-b  border-slate-500">
         <div v-for="filterButton in filterButtons" class="w-full flex justify-between">
+          <div></div>
           <button @click="$emit('filter', filterButton)"
-            class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex items-center"
+            class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left hover:bg-gray-200 dark:hover:bg-slate-600 transition-all flex justify-between items-center"
             :class="{ 'font-semibold bg-gray-200 dark:bg-slate-500': props.actualFilter === filterButton.title }">
-            <div class="w-5 mr-2 flex justify-center"><i :class="filterButton.icon"></i></div>{{ filterButton.title }}
+            <div class="flex items-center"><div class="w-5 mr-2 flex justify-center"><i :class="filterButton.icon"></i></div>{{ filterButton.title }}</div>
 
             <p v-if="filterButton.title == 'Today' && expiredTasks > 0"
-              class="bg-red-400 px-2 py-0.5 flex justify-center items-center text-white font-semibold text-sm rounded-full">
+              class="bg-red-400 w-6 h-6 flex justify-center items-center text-white font-semibold text-sm rounded-full">
               {{ expiredTasks }}
             </p>
 
           </button>
+          
         </div>
       </div>
 

@@ -23,7 +23,7 @@
         </button>
       </div>
       <div
-          v-if="expiredTasks.length > 0 && actualFilter === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
+          v-if="expiredTasks.length > 0 && actualFilter.title === 'Today'" class="border-b sticky top-0 bg-red-500 bg-opacity-20 dark:bg-opacity-30 backdrop-blur-lg text-red-500 dark:text-white text-center p-2 hover:brightness-125">
           <button @click="seeExpired = !seeExpired" class="p-3"><span v-if="!seeExpired"> Show</span><span
               v-else> Hide</span> {{ expiredTasks.length }} expired tasks</button>
       
@@ -31,7 +31,7 @@
     </div>
       <div class="max-h-10/12">
         <Transition name="slide">
-        <div v-show="seeExpired && actualFilter === 'Today'" class="bg-red-500 bg-opacity-10 border-b overflow-hidden max-h-[500px]">
+        <div v-show="seeExpired && actualFilter.title === 'Today'" class="bg-red-500 bg-opacity-10 border-b overflow-hidden max-h-[500px]">
           <Task v-for="task in expiredTasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
       </Transition>
@@ -39,11 +39,12 @@
           <Task v-for="task in tasks" :task="task" :key="task.id" @openEdit="edit" />
         </div>
         <div v-if="tasks.length == 0 && actualFilter != 'Logbook'" class="flex flex-col mt-32 justify-center items-center">
-          <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks yet as {{ actualFilter.title.toLowerCase() }}
+          <h1 class="text-3xl text-gray-300 dark:text-slate-600 mb-6">No tasks for {{ actualFilter.title.toLowerCase() }}
+            <span class="mr-2" v-if="actualCatFilter">as {{ categoryStore.categories.find(category => category.id === actualCatFilter).title.toLowerCase() }} </span>yet
             <i class="fa-regular fa-face-sad-tear"></i></h1>
           <button @click="creating = true"
             class="px-4 py-2 rounded-full border bg-emerald-500 hover:bg-emerald-600 text-white">
-            Add your first {{ actualFilter.title.toLowerCase() }} task
+            Add a new task
           </button>
         </div>
       </div>
@@ -105,7 +106,7 @@ const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
 const actualFilter = ref({title: "Today",
-  icon: "fa-solid fa-calendar-day text-sky-500"});
+  icon: "fa-solid fa-calendar-day text-indigo-600 dark:text-indigo-400"});
 const actualCatFilter = ref(null)
 
 onMounted(async () => {

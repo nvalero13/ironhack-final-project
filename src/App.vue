@@ -31,3 +31,27 @@ onMounted(async () => {
   }
 });
 </script>
+
+<style>
+/* width */
+::-webkit-scrollbar {
+
+width: 5px;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #a4a9bd;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #4c485a;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #2c2f38;
+}
+</style>
