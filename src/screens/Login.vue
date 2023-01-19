@@ -13,7 +13,9 @@
                 <input v-model="password" type="password" name="Password" class="w-full p-2 rounded-sm outline-none">
 
                 <input type="submit" value="Login" class="block bg-emerald-500 text-white px-5 py-2 my-3 w-full hover:bg-emerald-600 pointer">
+                <Transition name="fade">
                 <div v-show="errorMsg" class="w-full text-red-400 text-center mt-3 p-2">{{ errorMsg }}</div>
+                </Transition>
             </form>
             <p class="text-center my-5">Don't have an account? <router-link class="text-emerald-500 hover:underline" to="/register">Register</router-link></p>
         </div>
@@ -53,6 +55,14 @@ async function handleSignIn() {
 
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>
