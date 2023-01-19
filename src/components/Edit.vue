@@ -14,7 +14,7 @@
             <div class="w-8/12 min-w-[300px]">
                 <label class="dark:text-white text-gray-400 text-sm" for="title">Title</label>
                 <input v-model="title" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
-                    name="Title" type="text" placeholder="Enter title here" />
+                    name="Title" maxlength="60" type="text" placeholder="Enter title here" />
             </div>
             <div class="w-4/12">
                 <label class="dark:text-white text-gray-400 text-sm" for="title">Due date</label>
@@ -70,7 +70,7 @@
                 <div v-for="subtask in subtasks.length" class="flex items-end gap-2">
                     <input v-model="subtasks[subtask - 1].title"
                         class="h-12 w-11/12 block outline-none border-b dark:text-white dark:bg-slate-700"
-                        type="text" />
+                        type="text" maxlength="60"/>
                     <button v-if="subtask == subtasks.length" :disabled="subtasks[subtask - 1].title.length < 3"
                         @click="handleAddSubtask()"
                         class="text-sm w-1/12 mr-1 h-10 text-slate-700 dark:text-white border rounded-full disabled:opacity-50 hover:enabled:bg-emerald-500 hover:enabled:bg-opacity-25"><i

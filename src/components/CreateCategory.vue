@@ -1,5 +1,6 @@
 <template>
-    <div class="bg-white dark:bg-slate-700 border absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pb-6">
+    <div
+        class="bg-white dark:bg-slate-700 max-w-[395px] border absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pb-6">
         <button
             class="bg-red-500 absolute -top-4 -right-4 my-1 mx-1 w-8 h-8 rounded-full transition-all hover:scale-110 hover:bg-red-600"
             @click="$emit('close')">
@@ -12,7 +13,7 @@
 
         <div class="p-4 w-full min-w-[200px]">
             <label class="dark:text-white text-gray-400 text-sm" for="title">Title</label>
-            <input v-model="title" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
+            <input v-model="title" maxlength="16" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
                 name="Title" type="text" placeholder="Enter title here" />
         </div>
 
@@ -54,28 +55,28 @@ const userStore = useUserStore();
 const emit = defineEmits(["close"]);
 
 const title = ref("")
-const selectedColor = ref("gray-800");
+const selectedColor = ref("red-500");
 const selectedIcon = ref("fa-solid fa-star")
 
-const isDisabled = computed (() => title.value.length < 3)
+const isDisabled = computed(() => title.value.length < 3)
 
 
 
-const colors = ref([{ bg: "bg-gray-800" }, { bg: "bg-red-500" }, { bg: "bg-orange-500" }, { bg: "bg-yellow-500" }, { bg: "bg-lime-500" }, { bg: "bg-green-500" }, { bg: "bg-emerald-500" }, { bg: "bg-teal-500" }, { bg: "bg-blue-500" }, { bg: "bg-violet-500" },]);
+const colors = ref([{ bg: "bg-red-500" }, { bg: "bg-orange-500" }, { bg: "bg-yellow-500" }, { bg: "bg-lime-500" }, { bg: "bg-green-500" }, { bg: "bg-teal-500" }, { bg: "bg-blue-500" }, { bg: "bg-violet-500" }, { bg: "bg-fuchsia-500" }, { bg: "bg-pink-500" }]);
 colors.value.forEach((color) => {
     color.color = color.bg.slice(3);
 });
 
 
-const icons = ref(["fa-solid fa-star", "fa-solid fa-house", "fa-solid fa-envelope", "fa-solid fa-cart-shopping", "fa-solid fa-book", "fa-solid fa-fire", "fa-solid fa-briefcase", "fa-solid fa-flask", "fa-solid fa-person-running", "fa-solid fa-feather",]);
+const icons = ref(["fa-solid fa-star", "fa-solid fa-fire", "fa-solid fa-house", "fa-solid fa-envelope", "fa-solid fa-cart-shopping", "fa-solid fa-book" , "fa-solid fa-car", "fa-solid fa-briefcase", "fa-solid fa-paw", "fa-solid fa-briefcase-medical", "fa-solid fa-cash-register", "fa-solid fa-person-running", "fa-solid fa-palette", "fa-solid fa-pen-nib", "fa-solid fa-plane-up", "fa-solid fa-dumbbell",  "fa-solid fa-camera", "fa-solid fa-cloud", "fa-solid fa-lock", "fa-solid fa-poo"]);
 
 async function createCategory() {
- 
+
     await categoryStore.createCategory(
-      title.value,
-      selectedColor.value,
-      selectedIcon.value,
-      userStore.user.id
+        title.value,
+        selectedColor.value,
+        selectedIcon.value,
+        userStore.user.id
     );
 
     emit("close");
@@ -85,7 +86,7 @@ async function createCategory() {
     selectedIcon.value = "";
 
     categoryStore.fetchCategories(userStore.user.id);
-  
+
 }
 
 </script>
