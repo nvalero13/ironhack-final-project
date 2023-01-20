@@ -13,7 +13,7 @@
         <div class="p-4 w-full min-w-[200px]">
             <label class="dark:text-white text-gray-400 text-sm" for="title">Title</label>
             <input v-model="title" class="h-12 w-full block outline-none border-b dark:text-white dark:bg-slate-700"
-                name="Title" maxlength="16" type="text" placeholder="Enter title here" />
+                name="Title" maxlength="20" type="text" placeholder="Enter title here" />
         </div>
 
         <div class="p-4">
