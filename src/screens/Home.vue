@@ -158,7 +158,7 @@ function applyFilter(title) {
   switch (title) {
     case "Inbox":
       tasks.value = taskStore.tasks.filter((task) =>
-        isBeyondToday(new Date(task.due_date))
+      !task.due_date || isBeyondToday(new Date(task.due_date) )
       )
       tasks.value = tasks.value.filter((task) => task.is_complete === false);
       break;
