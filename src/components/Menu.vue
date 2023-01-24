@@ -54,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from "vue";
+import { ref, watch, computed, onMounted } from "vue";
 import { useDark, useToggle } from "@vueuse/core";
 import { useUserStore } from "../store/user";
 import { useTaskStore } from "../store/task";

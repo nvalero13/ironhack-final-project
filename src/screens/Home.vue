@@ -106,8 +106,8 @@ const taskNum = computed(() => tasks.value.length);
 const doneTaskNum = computed(() => tasks.value.filter((task) => task.is_complete === true).length);
 
 const actualFilter = ref({
-  title: "Inbox",
-  icon: "fa-solid fa-inbox text-indigo-700 dark:text-indigo-500"
+  title: "Today",
+  icon: "fa-solid fa-calendar-day text-indigo-600 dark:text-indigo-400"
 });
 const actualCatFilter = ref(null)
 
@@ -124,16 +124,16 @@ watch(
 );
 
 function handleFilter(param) {
-  if(actualFilter.value !== param) {
+  if(actualFilter.value.title != param.title) {
   actualFilter.value = param;
-  applyFilter(actualFilter.value.title);
   } else {
   actualFilter.value = {
   title: "Inbox",
   icon: "fa-solid fa-inbox text-indigo-700 dark:text-indigo-500"
-}, 
-  applyFilter(actualFilter.value.title);
   }
+
+  }
+  applyFilter(actualFilter.value.title);
 }
 
 
