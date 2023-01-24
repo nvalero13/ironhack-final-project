@@ -25,13 +25,13 @@
 
       <div class="flex flex-col mt-4">
 
-        <button @click="handleActiveCat(category.id)" v-if="categories"
+        <button @click="handleActiveCat(category.id)" @mouseover="upHere = category.id" @mouseleave="upHere = 0" v-if="categories" 
           v-for="category in categories" :key="category.id"
           :class="activeCat === category.id ? `bg-${category.color} bg-opacity-50 hover:bg-opacity-25 ` : 'hover:bg-gray-200 dark:hover:bg-slate-600'"
           class="p-1.5 my-0.5 pl-4 w-full rounded-full text-left flex items-center justify-between text-slate-700 dark:text-slate-200 dark:hover:bg-opacity transition-all">
           <div class="flex"><div class="w-5 mr-2 flex justify-center"><i class="m-auto" :class="category.icon"></i></div><span class="dark:text-white">{{
             category.title
-          }}</span></div><button @click.stop="$emit('editCat', category)" v-if="activeCat === category.id" class="w-6 h-6 rounded-full hover:bg-slate-200 hover:bg-opacity-25"><i class="fa-solid fa-ellipsis"></i></button>
+          }}</span></div><button @click.stop="$emit('editCat', category)" v-show="upHere === category.id" class="w-6 h-6 rounded-full hover:bg-slate-200 hover:bg-opacity-25"><i class="fa-solid fa-ellipsis"></i></button>
         </button>
 
       </div>
@@ -74,7 +74,7 @@ const emit = defineEmits(["filter", "filterCat"])
 
 
 const activeCat = ref("")
-
+const upHere = ref(false)
 
 function logOut() {
   userStore.logOut;
