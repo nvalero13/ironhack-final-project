@@ -12,5 +12,6 @@
  <li> The design is conceived for the best user experience. Thus facilitating the organization and making this task much more friendly. </li>
 </ul>
 
+![Tudú Demo Gif 2](https://user-images.githubusercontent.com/89971634/215262814-4835e0e1-71cd-4c1a-a950-562a564ef939.gif)
 
 <small> Created with Vue + Vite and Supabase. </small>
