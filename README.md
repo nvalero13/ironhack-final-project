@@ -1,7 +1,16 @@
-# Vue 3 + Vite
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![logo-white](https://user-images.githubusercontent.com/89971634/215261445-613f2391-48ce-4a26-afa1-be632dfac5f2.svg)
 
-## Recommended IDE Setup
+<h3> Tudú is a task manager that allows you to create and organize tasks with their date, priority level, notes, subtasks and categories. </h3>
+<br>
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+![Tudú Demo Gif](https://user-images.githubusercontent.com/89971634/215261740-e5cc470a-b717-4908-b09c-0a1ad6632845.gif)
+
+<ul>
+ <li> It also allows you to create categories to customize the experience to the maximum. </li>
+ <li> The filtering system helps to view tasks by date proximity and categories at the same time. </li>
+ <li> The design is conceived for the best user experience. Thus facilitating the organization and making this task much more friendly. </li>
+</ul>
+
+
+<small> Created with Vue + Vite and Supabase. </small>
